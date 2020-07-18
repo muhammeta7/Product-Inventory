@@ -2,13 +2,11 @@ package com.prodinv.models;
 
 import com.sun.istack.NotNull;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Item
+@Table(name = "product")
+public class Product
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +26,7 @@ public class Item
     @NotNull
     private String category;
 
-    public Item()
+    public Product()
     {
     }
 
