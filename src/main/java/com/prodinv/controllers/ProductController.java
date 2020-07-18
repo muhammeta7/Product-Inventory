@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/api")
 public class ProductController
@@ -23,6 +25,24 @@ public class ProductController
     public ResponseEntity<Iterable<Product>> index()
     {
         return new ResponseEntity<>(service.index(), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/name")
+    public ResponseEntity<Product> findByName(@RequestParam String name)
+    {
+        return new ResponseEntity<>(service.findByName(name), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/abbr")
+    public ResponseEntity<Product> findByAbbr(@RequestParam String abbr)
+    {
+        return new ResponseEntity<>(service.findByAbbr(abbr), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/category")
+    public ResponseEntity<Collection<Product>> findByCategory(@RequestParam String category)
+    {
+        return new ResponseEntity<>(service.findByCategory(category), HttpStatus.OK);
     }
 
     @PostMapping("/products")
