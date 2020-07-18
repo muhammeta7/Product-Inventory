@@ -15,7 +15,6 @@ public class SoldItem
     private String purchaser;
     @CreationTimestamp
     private LocalDateTime sellDate;
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime shipDate;
     private Integer qty;
 
