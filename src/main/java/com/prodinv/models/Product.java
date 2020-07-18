@@ -1,8 +1,7 @@
 package com.prodinv.models;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 public class Product
@@ -10,19 +9,28 @@ public class Product
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull
+    @NotEmpty(message="Name can not be empty")
+    @Size(min=2, max=32, message="Name must be between 2 and 32 characters long.")
     private String name;
+    @NotEmpty(message="Name can not be empty")
+    @Size(min=2, max=5, message="Abbreviation must be between 2 and 5 characters long.")
     private String abbreviation;
-    @NotNull
+    @Pattern(regexp = "^[A-K]/d[TB]$")
     private String location;
+    @DecimalMax("240.0") @DecimalMin("0.0")
     private Double length;
+    @DecimalMax("120.0") @DecimalMin("0.0")
     private Double width;
+    @DecimalMax("120.0") @DecimalMin("0.0")
     private Double depth;
     @NotNull
+    @Min(1)
     private Integer qty;
-    @NotNull
+    @NotEmpty(message="Description can not be empty")
+    @Size(min=2, max=300, message="Description must be between 2 and 5 characters long.")
     private String description;
-    @NotNull
+    @NotEmpty(message="Category can not be empty")
+    @Size(min=2, max=32, message="Category must be between 2 and 32 characters long.")
     private String category;
 
     public Product()
