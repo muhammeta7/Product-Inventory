@@ -5,21 +5,20 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class SoldItem
+public class SoldProduct
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne
-    private Item soldItem;
+    private Product soldProduct;
     private String purchaser;
     @CreationTimestamp
     private LocalDateTime sellDate;
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime shipDate;
     private Integer qty;
 
-    public SoldItem()
+    public SoldProduct()
     {
     }
 
@@ -33,14 +32,14 @@ public class SoldItem
         this.id = id;
     }
 
-    public Item getSoldItem()
+    public Product getSoldProduct()
     {
-        return soldItem;
+        return soldProduct;
     }
 
-    public void setSoldItem(Item soldItem)
+    public void setSoldProduct(Product soldProduct)
     {
-        this.soldItem = soldItem;
+        this.soldProduct = soldProduct;
     }
 
     public String getPurchaser()
