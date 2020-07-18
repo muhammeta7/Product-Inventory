@@ -13,9 +13,10 @@ public class Product
     @Size(min=2, max=32, message="Name must be between 2 and 32 characters long.")
     private String name;
     @NotEmpty(message="Name can not be empty")
+    @Pattern(regexp = "\\S+")
     @Size(min=2, max=5, message="Abbreviation must be between 2 and 5 characters long.")
     private String abbreviation;
-    @Pattern(regexp = "^[A-K]/d[TB]$")
+    @Pattern(regexp = "^[A-K]\\d[TB]$")
     private String location;
     @DecimalMax("240.0") @DecimalMin("0.0")
     private Double length;

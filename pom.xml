@@ -40,6 +40,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
+<!--This handles REST validation properly-->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
