@@ -5,7 +5,6 @@ import com.prodinv.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -47,7 +46,6 @@ public class ProductController
     }
 
     @PostMapping("/products")
-    @Validated
     public ResponseEntity<Product> create(@RequestBody Product product)
     {
         return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
