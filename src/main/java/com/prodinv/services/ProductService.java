@@ -5,6 +5,8 @@ import com.prodinv.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 public class ProductService
 {
@@ -39,6 +41,11 @@ public class ProductService
     public Product findByAbbr(String abbr)
     {
         return repository.findByAbbr(abbr);
+    }
+
+    public Collection<Product> findByCategory(String category)
+    {
+        return repository.findByCategory(category);
     }
 
     public Boolean delete(Long id)
