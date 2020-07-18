@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController
@@ -46,7 +46,7 @@ public class ProductController
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Product> create(@RequestBody Product product)
+    public ResponseEntity<Product> create(@Valid @RequestBody Product product)
     {
         return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
     }
