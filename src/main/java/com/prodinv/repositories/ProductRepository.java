@@ -11,8 +11,10 @@ import java.util.Collection;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>
 {
-    @Query("SELECT p FROM Product p WHERE p.name = :name")
-    Product findByName(@Param("name") String searchTerm);
+//    @Query("SELECT p FROM Product p WHERE p.name = :name")
+//    Product findByName(@Param("name") String searchTerm);
+
+    Product findByName(String searchTerm);
 
     @Query("SELECT p FROM Product p WHERE p.abbreviation = :abbreviation")
     Product findByAbbr(@Param("abbreviation") String searchTerm);
