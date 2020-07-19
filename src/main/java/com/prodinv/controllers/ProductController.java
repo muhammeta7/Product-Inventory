@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -25,6 +26,12 @@ public class ProductController
     public ResponseEntity<Iterable<Product>> index()
     {
         return new ResponseEntity<>(service.index(), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/{id}")
+    public ResponseEntity<Optional<Product>> findById(@PathVariable Long id)
+    {
+        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/products/name")
