@@ -33,6 +33,8 @@ public class Product
     @NotEmpty(message="Category can not be empty")
     @Size(min=2, max=32, message="Category must be between 2 and 32 characters long.")
     private String category;
+//    @OneToOne
+//    private ImageFile photo;
 
     public Product()
     {
@@ -119,4 +121,14 @@ public class Product
     public void setCategory(String category) {
         this.category = category;
     }
+
+//    public ImageFile getPhoto()
+//    {
+//        return photo;
+//    }
+//
+//    public void setPhoto(ImageFile photo)
+//    {
+//        this.photo = photo;
+//    }
 }
