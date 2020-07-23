@@ -12,17 +12,16 @@ public class ImageFile
     private String fileName;
     private String type;
     @Lob
-    @Column(columnDefinition = "bytea")
-    private byte[] photo;
+    private byte[] imgBytes;
 
     // It's on one line.  Are you happy? :P
     public ImageFile() {}
 
-    public ImageFile(String fileName, String contentType, byte[] bytes)
+    public ImageFile(String fileName, String contentType, byte[] imgBytes)
     {
         this.fileName = fileName;
         this.type = contentType;
-        this.photo = bytes;
+        this.imgBytes = imgBytes;
     }
 
     public Long getId()
@@ -55,13 +54,13 @@ public class ImageFile
         this.type = type;
     }
 
-    public byte[] getPhoto()
+    public byte[] getImgBytes()
     {
-        return photo;
+        return imgBytes;
     }
 
-    public void setPhoto(byte[] photo)
+    public void setImgBytes(byte[] imgBytes)
     {
-        this.photo = photo;
+        this.imgBytes = imgBytes;
     }
 }

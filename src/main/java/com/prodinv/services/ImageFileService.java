@@ -30,7 +30,10 @@ public class ImageFileService
 
         try
         {
-            ImageFile img = new ImageFile(fileName, file.getContentType(), file.getBytes());
+            logger.log(Level.INFO, "File name: " + fileName);
+            logger.log(Level.INFO, "Content Type: " + file.getContentType());
+            byte[] fileBytes = file.getBytes();
+            ImageFile img = new ImageFile(fileName, file.getContentType(), fileBytes);
             return repository.save(img);
         }
         catch(IOException e)

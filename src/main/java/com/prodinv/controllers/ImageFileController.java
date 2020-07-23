@@ -26,6 +26,7 @@ public class ImageFileController
     @PostMapping("/upload")
     public ResponseEntity<ImageFile> uploadImage(@RequestParam("image") MultipartFile image) throws IOException
     {
+        // Do we really want to pass this sort of ResponseEntity?  Passing the image back as JSON seems inefficient
         return new ResponseEntity<>(service.uploadImage(image), HttpStatus.OK);
     }
 }
