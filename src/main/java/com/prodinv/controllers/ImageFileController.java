@@ -29,7 +29,7 @@ public class ImageFileController
     public ResponseEntity<ImageFile> uploadImage(@RequestParam("image") MultipartFile image) throws IOException
     {
         // Do we really want to pass this sort of ResponseEntity?  Passing the image back as JSON seems inefficient
-        return new ResponseEntity<>(service.uploadImage(image), HttpStatus.OK);
+        return new ResponseEntity<>(service.uploadImage(image), HttpStatus.CREATED);
     }
 
 //    @GetMapping("/{id}")
@@ -41,10 +41,10 @@ public class ImageFileController
     @GetMapping(value = "/{name}",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
-    public @ResponseBody byte[] directlyGetImage(@PathVariable String name) throws FileNotFoundException
+    public ResponseEntity<byte[]> directlyGetImage(@PathVariable String name) throws FileNotFoundException
     {
         ImageFile img = service.findByName(name);
 
-        return img.getImgBytes();
+        return new ResponseEntity<>(img.getImgBytes(), HttpStatus.OK);
     }
 }
