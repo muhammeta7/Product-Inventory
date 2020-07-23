@@ -5,16 +5,17 @@ import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "image",
-        uniqueConstraints={@UniqueConstraint(columnNames={"fileName"})})
+        uniqueConstraints={@UniqueConstraint(columnNames={"file_name"})})
 public class ImageFile
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "fileName")
+    @Column(name = "file_name")
     private String fileName;
     private String type;
     @Lob
+    @Column(name = "image_bytes")
     @Basic(fetch = FetchType.LAZY)
     private byte[] imgBytes;
 
