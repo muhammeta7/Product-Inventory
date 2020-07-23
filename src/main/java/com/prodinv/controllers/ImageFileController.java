@@ -16,6 +16,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/images")
+@CrossOrigin
 public class ImageFileController
 {
     private ImageFileService service;
@@ -26,7 +27,8 @@ public class ImageFileController
         this.service = service;
     }
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageFile> uploadImage(@Valid @RequestParam("image") MultipartFile image) throws IOException
     {
         // Do we really want to pass this sort of ResponseEntity?  Passing the image back as JSON seems inefficient
@@ -39,13 +41,14 @@ public class ImageFileController
 //        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
 //    }
 
-    @GetMapping(value = "/{name}",
-            produces = MediaType.IMAGE_JPEG_VALUE
-    )
+    @GetMapping(value = "/{name}")
     public ResponseEntity<byte[]> directlyGetImage(@PathVariable String name) throws FileNotFoundException
     {
         ImageFile img = service.findByName(name);
-
-        return new ResponseEntity<>(img.getImgBytes(), HttpStatus.OK);
+        
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.valueOf(img.getType()))
+                .body(img.getImgBytes());
     }
 }
