@@ -28,6 +28,7 @@ public class ImageFileController
     }
 
     @PostMapping(value = "/upload")
+    // consumes = { MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, "image/heic" })
     // TODO: Add proper consume = "" values
     public ResponseEntity<ImageFile> uploadImage(@Valid @RequestParam("image") MultipartFile image) throws IOException
     {
