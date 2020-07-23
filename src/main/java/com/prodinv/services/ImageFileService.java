@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileSystemNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,9 +45,16 @@ public class ImageFileService
         }
     }
 
-    public ImageFile getImage(Long id) throws FileNotFoundException
+    public ImageFile findById(Long id) throws FileNotFoundException
     {
         return repository.findById(id)
                 .orElseThrow(() -> new FileNotFoundException("File not found with id " + id));
+    }
+
+    @Transactional
+    public ImageFile findByName(String name) throws FileNotFoundException
+    {
+        return repository.findByFileName(name)
+                .orElseThrow(() -> new FileSystemNotFoundException(("File not found with name " + name)));
     }
 }

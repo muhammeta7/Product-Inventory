@@ -12,6 +12,7 @@ public class ImageFile
     private String fileName;
     private String type;
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     private byte[] imgBytes;
 
     // It's on one line.  Are you happy? :P
