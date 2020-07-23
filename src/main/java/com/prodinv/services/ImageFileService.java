@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.transaction.Transactional;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,9 +31,10 @@ public class ImageFileService
 
         try
         {
-            logger.log(Level.INFO, "File name: " + fileName);
-            logger.log(Level.INFO, "Content Type: " + file.getContentType());
+            logger.log(Level.INFO, "UPLOAD File name: " + fileName);
+            logger.log(Level.INFO, "UPLOAD Content Type: " + file.getContentType());
             byte[] fileBytes = file.getBytes();
+            logger.log(Level.INFO, String.format("UPLOAD File size: %.2f KB", fileBytes.length / 1024.0));
             ImageFile img = new ImageFile(fileName, file.getContentType(), fileBytes);
             return repository.save(img);
         }
