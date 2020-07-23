@@ -27,8 +27,8 @@ public class ImageFileController
         this.service = service;
     }
 
-    @PostMapping(value = "/upload",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/upload")
+    // TODO: Add proper consume = "" values
     public ResponseEntity<ImageFile> uploadImage(@Valid @RequestParam("image") MultipartFile image) throws IOException
     {
         // Do we really want to pass this sort of ResponseEntity?  Passing the image back as JSON seems inefficient
@@ -36,16 +36,16 @@ public class ImageFileController
     }
 
 //    @GetMapping("/{id}")
-//    public ResponseEntity<ImageFile> getImage(@PathVariable Long id) throws FileNotFoundException
+//    public ResponseEntity<ImageFile> findImageById(@PathVariable Long id) throws FileNotFoundException
 //    {
 //        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
 //    }
 
     @GetMapping(value = "/{name}")
-    public ResponseEntity<byte[]> directlyGetImage(@PathVariable String name) throws FileNotFoundException
+    public ResponseEntity<byte[]> findImageByName(@PathVariable String name) throws FileNotFoundException
     {
         ImageFile img = service.findByName(name);
-        
+
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.valueOf(img.getType()))
