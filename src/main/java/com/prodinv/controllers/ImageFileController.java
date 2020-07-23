@@ -41,10 +41,10 @@ public class ImageFileController
     @GetMapping(value = "/{name}",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
-    public @ResponseBody byte[] directlyGetImage(@PathVariable String name) throws FileNotFoundException
+    public ResponseEntity<byte[]> directlyGetImage(@PathVariable String name) throws FileNotFoundException
     {
         ImageFile img = service.findByName(name);
 
-        return img.getImgBytes();
+        return new ResponseEntity<>(img.getImgBytes(), HttpStatus.OK);
     }
 }
