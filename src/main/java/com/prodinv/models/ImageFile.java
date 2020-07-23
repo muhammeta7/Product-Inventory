@@ -16,7 +16,14 @@ public class ImageFile
     private byte[] photo;
 
     // It's on one line.  Are you happy? :P
-    public ImageFile(String fileName, String contentType, byte[] bytes) {}
+    public ImageFile() {}
+
+    public ImageFile(String fileName, String contentType, byte[] bytes)
+    {
+        this.fileName = fileName;
+        this.type = contentType;
+        this.photo = bytes;
+    }
 
     public Long getId()
     {
