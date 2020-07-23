@@ -1,14 +1,17 @@
 package com.prodinv.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
-@Table(name = "image")
+@Table(name = "image",
+        uniqueConstraints={@UniqueConstraint(columnNames={"fileName"})})
 public class ImageFile
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "fileName")
     private String fileName;
     private String type;
     @Lob

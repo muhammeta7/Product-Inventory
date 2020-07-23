@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -26,7 +27,7 @@ public class ImageFileController
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<ImageFile> uploadImage(@RequestParam("image") MultipartFile image) throws IOException
+    public ResponseEntity<ImageFile> uploadImage(@Valid @RequestParam("image") MultipartFile image) throws IOException
     {
         // Do we really want to pass this sort of ResponseEntity?  Passing the image back as JSON seems inefficient
         return new ResponseEntity<>(service.uploadImage(image), HttpStatus.CREATED);
