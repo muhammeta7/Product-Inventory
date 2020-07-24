@@ -31,7 +31,7 @@ public class ImageFileService
 
         if(!file.getContentType().contains("image/"))
         {
-            throw new IOException("This endpoint only accepts valid image files.");
+            throw new IOException("Endpoint only accepts valid image files.  File was of type: " + file.getContentType() + "   ");
         }
 
         logger.log(Level.INFO, "UPLOAD File name: " + fileName);
