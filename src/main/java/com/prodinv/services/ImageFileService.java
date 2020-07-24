@@ -29,13 +29,13 @@ public class ImageFileService
     {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        logger.log(Level.INFO, "UPLOAD File name: " + fileName);
-        logger.log(Level.INFO, "UPLOAD Content Type: " + file.getContentType());
         if(!file.getContentType().contains("image/"))
         {
             throw new IOException("This endpoint only accepts valid image files.");
         }
 
+        logger.log(Level.INFO, "UPLOAD File name: " + fileName);
+        logger.log(Level.INFO, "UPLOAD Content Type: " + file.getContentType());
         byte[] fileBytes = file.getBytes();
         logger.log(Level.INFO, String.format("UPLOAD File size: %.2f KB", fileBytes.length / 1024.0));
         ImageFile img = new ImageFile(fileName, file.getContentType(), fileBytes);
