@@ -34,3 +34,6 @@ build/
 
 ### Spring resources ###
 /src/main/resources/*
+
+### Maven wrapper removed ###
+.mvn/
