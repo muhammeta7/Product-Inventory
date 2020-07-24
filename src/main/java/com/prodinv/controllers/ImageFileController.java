@@ -28,12 +28,19 @@ public class ImageFileController
     }
 
     @PostMapping(value = "/upload")
-    // consumes = { MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, "image/heic" })
-    // TODO: Add proper consume = "" values
     public ResponseEntity<ImageFile> uploadImage(@Valid @RequestParam("image") MultipartFile image) throws IOException
     {
-        // Do we really want to pass this sort of ResponseEntity?  Passing the image back as JSON seems inefficient
-        return new ResponseEntity<>(service.uploadImage(image), HttpStatus.CREATED);
+        ImageFile upload;
+        
+        try
+        {
+            upload = service.uploadImage(image);
+        }
+        catch(IOException e)
+        {
+            return new ResponseEntity<>(null, null, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        }
+        return new ResponseEntity<>(upload, HttpStatus.CREATED);
     }
 
 //    @GetMapping("/{id}")
