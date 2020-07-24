@@ -1,18 +1,20 @@
 package com.prodinv.controllers;
 
+import com.prodinv.exceptions.InvalidImageFileException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.services.ImageFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 @RestController
 @RequestMapping("/api/images")
@@ -20,6 +22,7 @@ import java.io.IOException;
 public class ImageFileController
 {
     private ImageFileService service;
+    private final static Logger logger = Logger.getLogger(ImageFileController.class.getName());
 
     @Autowired
     public ImageFileController(ImageFileService service)
@@ -28,12 +31,21 @@ public class ImageFileController
     }
 
     @PostMapping(value = "/upload")
-    // consumes = { MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, "image/heic" })
-    // TODO: Add proper consume = "" values
     public ResponseEntity<ImageFile> uploadImage(@Valid @RequestParam("image") MultipartFile image) throws IOException
     {
-        // Do we really want to pass this sort of ResponseEntity?  Passing the image back as JSON seems inefficient
-        return new ResponseEntity<>(service.uploadImage(image), HttpStatus.CREATED);
+        ImageFile upload;
+
+        try
+        {
+            upload = service.uploadImage(image);
+        }
+        catch(IOException e)
+        {
+            logger.log(Level.WARNING, "Attempted to upload a non-image file: " + image.getOriginalFilename() + ", Type: " + image.getContentType());
+            throw new InvalidImageFileException(e.getMessage(), e.getCause());
+        }
+
+        return new ResponseEntity<>(upload, HttpStatus.CREATED);
     }
 
 //    @GetMapping("/{id}")

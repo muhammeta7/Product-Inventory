@@ -29,26 +29,18 @@ public class ImageFileService
     {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        try
+        if(!file.getContentType().contains("image/"))
         {
-            logger.log(Level.INFO, "UPLOAD File name: " + fileName);
-            logger.log(Level.INFO, "UPLOAD Content Type: " + file.getContentType());
-            if(!file.getContentType().contains("image/"))
-            {
-                throw new IOException("This endpoint only accepts valid image files.");
-            }
-
-            byte[] fileBytes = file.getBytes();
-            logger.log(Level.INFO, String.format("UPLOAD File size: %.2f KB", fileBytes.length / 1024.0));
-            ImageFile img = new ImageFile(fileName, file.getContentType(), fileBytes);
-
-            return repository.save(img);
+            throw new IOException("This endpoint only accepts valid image files.");
         }
-        catch(IOException e)
-        {
-            logger.log(Level.WARNING, "Error uploading file: " + fileName);
-            return null;
-        }
+
+        logger.log(Level.INFO, "UPLOAD File name: " + fileName);
+        logger.log(Level.INFO, "UPLOAD Content Type: " + file.getContentType());
+        byte[] fileBytes = file.getBytes();
+        logger.log(Level.INFO, String.format("UPLOAD File size: %.2f KB", fileBytes.length / 1024.0));
+        ImageFile img = new ImageFile(fileName, file.getContentType(), fileBytes);
+
+        return repository.save(img);
     }
 
     public ImageFile findById(Long id) throws FileNotFoundException
