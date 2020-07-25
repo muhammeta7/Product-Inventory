@@ -69,3 +69,4 @@ public class ImageFile
         this.imgBytes = imgBytes;
     }
 }
+
