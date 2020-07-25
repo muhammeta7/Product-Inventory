@@ -1,12 +1,12 @@
 package com.prodinv.models;
 
 import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class SoldProduct
-{
+public class SoldProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -18,67 +18,53 @@ public class SoldProduct
     private LocalDateTime shipDate;
     private Integer qty;
 
-    public SoldProduct()
-    {
-    }
+    public SoldProduct() {}
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Product getSoldProduct()
-    {
+    public Product getSoldProduct() {
         return soldProduct;
     }
 
-    public void setSoldProduct(Product soldProduct)
-    {
+    public void setSoldProduct(Product soldProduct) {
         this.soldProduct = soldProduct;
     }
 
-    public String getPurchaser()
-    {
+    public String getPurchaser() {
         return purchaser;
     }
 
-    public void setPurchaser(String purchaser)
-    {
+    public void setPurchaser(String purchaser) {
         this.purchaser = purchaser;
     }
 
-    public LocalDateTime getSellDate()
-    {
+    public LocalDateTime getSellDate() {
         return sellDate;
     }
 
-    public void setSellDate(LocalDateTime sellDate)
-    {
+    public void setSellDate(LocalDateTime sellDate) {
         this.sellDate = sellDate;
     }
 
-    public LocalDateTime getShipDate()
-    {
+    public LocalDateTime getShipDate() {
         return shipDate;
     }
 
-    public void setShipDate(LocalDateTime shipDate)
-    {
+    public void setShipDate(LocalDateTime shipDate) {
         this.shipDate = shipDate;
     }
 
-    public Integer getQty()
-    {
+    public Integer getQty() {
         return qty;
     }
 
-    public void setQty(Integer qty)
-    {
+    public void setQty(Integer qty) {
         this.qty = qty;
     }
 }
