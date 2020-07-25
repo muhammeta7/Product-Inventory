@@ -3,6 +3,10 @@ package com.prodinv.models;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,11 +15,16 @@ public class SoldProduct {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne
+    @NotNull
     private Product soldProduct;
+    @NotEmpty(message = "There must be a purchaser")
+    @Size(min = 4, max = 32, message = "Purchaser must be between 4 and 32 characters")
     private String purchaser;
     @CreationTimestamp
     private LocalDateTime sellDate;
     private LocalDateTime shipDate;
+    @NotNull(message = "Quantity cannot be null")
+    @Min(1)
     private Integer qty;
 
     public SoldProduct() {}
