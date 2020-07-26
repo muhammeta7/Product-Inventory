@@ -5,8 +5,7 @@ import com.prodinv.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductService
@@ -27,6 +26,15 @@ public class ProductService
     public Iterable<Product> index()
     {
         return repository.findAll();
+    }
+
+    public Set<String>  getCategories(){
+        Set<String> categories = new TreeSet<>();
+        List<Product> inventory = this.repository.findAll();
+        for(Product p : inventory){
+            categories.add(p.getCategory());
+        }
+        return categories;
     }
 
     public Optional<Product> findById(Long id)
