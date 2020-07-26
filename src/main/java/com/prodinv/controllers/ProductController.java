@@ -53,6 +53,18 @@ public class ProductController
         return new ResponseEntity<>(service.findByCategory(category), HttpStatus.OK);
     }
 
+    @GetMapping("/products/category/index")
+    public ResponseEntity<Collection<String>> findCategories()
+    {
+        return new ResponseEntity<>(service.listCategories(), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/abbr/index")
+    public ResponseEntity<Collection<String>> findAbbreviations()
+    {
+        return new ResponseEntity<>(service.listAbbreviations(), HttpStatus.OK);
+    }
+
     @PostMapping("/products")
     public ResponseEntity<Product> create(@Valid @RequestBody Product product)
     {
