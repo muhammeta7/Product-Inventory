@@ -57,6 +57,16 @@ public class ProductService
         return repository.findByCategory(category);
     }
 
+    public Collection<String> listCategories()
+    {
+        return repository.findCategories();
+    }
+
+    public Collection<String> listAbbreviations()
+    {
+        return repository.findAbbreviations();
+    }
+
     public Boolean delete(Long id)
     {
         repository.deleteById(id);
