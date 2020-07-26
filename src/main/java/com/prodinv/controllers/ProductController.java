@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -52,6 +54,12 @@ public class ProductController
     {
         return new ResponseEntity<>(service.findByCategory(category), HttpStatus.OK);
     }
+
+    @GetMapping("/products/categories")
+    public ResponseEntity<Set<String>> getUniqueCategories(){
+        return  new ResponseEntity<>(service.getCategories(), HttpStatus.OK);
+    }
+
 
     @PostMapping("/products")
     public ResponseEntity<Product> create(@Valid @RequestBody Product product)
