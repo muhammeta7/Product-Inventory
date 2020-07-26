@@ -22,9 +22,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>
     @Query("SELECT p FROM Product p WHERE p.category = :category")
     Collection<Product> findByCategory(@Param("category") String searchTerm);
 
-    @Query("SELECT DISTINCT p.category FROM Product p")
+    @Query("SELECT DISTINCT p.category FROM Product p ORDER BY p.category ASC")
     Collection<String> findCategories();
 
-    @Query("SELECT DISTINCT p.abbreviation FROM Product p")
+    @Query("SELECT DISTINCT p.abbreviation FROM Product p ORDER BY p.abbreviation ASC")
     Collection<String> findAbbreviations();
 }
