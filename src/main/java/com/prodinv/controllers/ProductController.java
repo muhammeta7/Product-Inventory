@@ -67,6 +67,12 @@ public class ProductController
         return new ResponseEntity<>(service.listAbbreviations(), HttpStatus.OK);
     }
 
+    @GetMapping("/products/location/index")
+    public ResponseEntity<Collection<String>> findLocations()
+    {
+        return new ResponseEntity<>(service.listLocations(), HttpStatus.OK);
+    }
+
     @PostMapping("/products")
     public ResponseEntity<Product> create(@Valid @RequestBody Product product)
     {
