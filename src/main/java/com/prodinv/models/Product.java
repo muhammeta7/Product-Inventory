@@ -5,7 +5,7 @@ import javax.validation.constraints.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "products",
+@Table(name = "product",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "abbreviation"})}
 )
 public class Product {
