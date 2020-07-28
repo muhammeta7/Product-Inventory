@@ -19,8 +19,9 @@ public class ImageFile
     @Basic(fetch = FetchType.LAZY)
     private byte[] imgBytes;
     // TODO relationship with product (Setters & getters below commented)
-//    @ManyToOne
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name="product_id")
+    private Product product;
 
     // It's on one line.  Are you happy? :P
     public ImageFile() {}
@@ -72,12 +73,12 @@ public class ImageFile
         this.imgBytes = imgBytes;
     }
 
-//    public Product getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(Product product) {
-//        this.product = product;
-//    }
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }
 
