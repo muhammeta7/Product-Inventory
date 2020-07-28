@@ -2,51 +2,55 @@ package com.prodinv.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Set;
 
 @Entity
-public class Product
-{
+@Table(name = "product",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "abbreviation"})}
+)
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotEmpty(message="Name can not be empty")
-    @Size(min=2, max=32, message="Name must be between 2 and 32 characters long.")
+    @NotEmpty(message = "Name can not be empty")
+    @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long.")
     private String name;
-    @NotEmpty(message="Name can not be empty")
+    @NotEmpty(message = "Name can not be empty")
     @Pattern(regexp = "\\S+")
-    @Size(min=2, max=5, message="Abbreviation must be between 2 and 5 characters long.")
+    @Size(min = 2, max = 5, message = "Abbreviation must be between 2 and 5 characters long.")
     private String abbreviation;
     @Pattern(regexp = "^[A-K]\\d[TB]$")
     private String location;
-    @DecimalMax("240.0") @DecimalMin("0.0")
+    @DecimalMax("240.0")
+    @DecimalMin("0.0")
     private Double length;
-    @DecimalMax("120.0") @DecimalMin("0.0")
+    @DecimalMax("120.0")
+    @DecimalMin("0.0")
     private Double width;
-    @DecimalMax("120.0") @DecimalMin("0.0")
+    @DecimalMax("120.0")
+    @DecimalMin("0.0")
     private Double depth;
     @NotNull
     @Min(1)
     private Integer qty;
-    @NotEmpty(message="Description can not be empty")
-    @Size(min=2, max=300, message="Description must be between 2 and 5 characters long.")
+    @NotEmpty(message = "Description can not be empty")
+    @Size(min = 2, max = 300, message = "Description must be between 2 and 5 characters long.")
     private String description;
-    @NotEmpty(message="Category can not be empty")
-    @Size(min=2, max=32, message="Category must be between 2 and 32 characters long.")
+    @NotEmpty(message = "Category can not be empty")
+    @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
+    // TODO Relationship with images(Setters & getters below commented)
 //    @OneToMany
 //    private Set<ImageFile> photos;
 
-    public Product()
-    {
+    public Product() {
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return this.id;
     }
 
@@ -122,13 +126,11 @@ public class Product
         this.category = category;
     }
 
-//    public Set<ImageFile> getPhotos()
-//    {
+//    public Set<ImageFile> getPhotos() {
 //        return photos;
 //    }
 //
-//    public void setPhoto(Set<ImageFile> photos)
-//    {
+//    public void setPhoto(Set<ImageFile> photos) {
 //        this.photos = photos;
 //    }
 }
