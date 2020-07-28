@@ -4,7 +4,6 @@ import com.prodinv.exceptions.InvalidImageFileException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.services.ImageFileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ public class ImageFileController
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<ImageFile> uploadImage(@Valid @RequestParam("image") MultipartFile image) throws IOException
+    public ResponseEntity<ImageFile> uploadImage(@Valid @RequestPart("image") MultipartFile image) throws IOException
     {
         ImageFile upload;
 

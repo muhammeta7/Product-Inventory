@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -73,10 +73,21 @@ public class ProductController
         return new ResponseEntity<>(service.listLocations(), HttpStatus.OK);
     }
 
+//    @PostMapping("/products")
+//    public ResponseEntity<Product> create(@Valid @RequestBody Product product)
+//    {
+//        return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
+//    }
+
+
+    // Error: 2020-07-28 14:28:30.887  WARN 18133 --- [nio-8080-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver :
+    //      Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'application/octet-
+    //      stream' not supported]
     @PostMapping("/products")
-    public ResponseEntity<Product> create(@Valid @RequestBody Product product)
+    public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
+                                          @RequestPart("image")MultipartFile image) throws IOException
     {
-        return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
+        return new ResponseEntity<>(service.create(product, image), HttpStatus.CREATED);
     }
 
     @DeleteMapping("products/{id}")

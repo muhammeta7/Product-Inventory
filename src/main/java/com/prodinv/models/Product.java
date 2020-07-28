@@ -11,6 +11,7 @@ import java.util.Set;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "product_id")
     private Long id;
     @NotEmpty(message = "Name can not be empty")
     @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long.")
@@ -40,8 +41,8 @@ public class Product {
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
     // TODO Relationship with images(Setters & getters below commented)
-//    @OneToMany
-//    private Set<ImageFile> photos;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "product")
+    private Set<ImageFile> photos;
 
     public Product() {
     }
@@ -126,11 +127,11 @@ public class Product {
         this.category = category;
     }
 
-//    public Set<ImageFile> getPhotos() {
-//        return photos;
-//    }
-//
-//    public void setPhoto(Set<ImageFile> photos) {
-//        this.photos = photos;
-//    }
+    public Set<ImageFile> getPhotos() {
+        return photos;
+    }
+
+    public void setPhoto(Set<ImageFile> photos) {
+        this.photos = photos;
+    }
 }
