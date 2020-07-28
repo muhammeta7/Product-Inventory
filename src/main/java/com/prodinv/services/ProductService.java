@@ -28,15 +28,6 @@ public class ProductService
         return repository.findAll();
     }
 
-    public Set<String>  getCategories(){
-        Set<String> categories = new TreeSet<>();
-        List<Product> inventory = this.repository.findAll();
-        for(Product p : inventory){
-            categories.add(p.getCategory());
-        }
-        return categories;
-    }
-
     public Optional<Product> findById(Long id)
     {
         return repository.findById(id);
