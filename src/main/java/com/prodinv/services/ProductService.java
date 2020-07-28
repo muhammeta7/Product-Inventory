@@ -35,10 +35,11 @@ public class ProductService
         {
             ImageFile img = imageFileService.uploadImage(imageFile);
 
-            Set<ImageFile> pictures = new HashSet<>();
-            pictures.add(img);
-
-            newProduct.setPhoto(pictures);
+//            Set<ImageFile> pictures = new HashSet<>();
+//            pictures.add(img);
+//
+//            newProduct.setPhoto(pictures);
+            newProduct.setPhoto(img);
         }
         catch(Exception e)
         {

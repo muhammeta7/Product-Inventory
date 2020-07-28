@@ -1,5 +1,7 @@
 package com.prodinv.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -19,8 +21,8 @@ public class ImageFile
     @Basic(fetch = FetchType.LAZY)
     private byte[] imgBytes;
     // TODO relationship with product (Setters & getters below commented)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
+    @OneToOne
+    @JsonIgnoreProperties("photos")
     private Product product;
 
     // It's on one line.  Are you happy? :P
@@ -81,4 +83,3 @@ public class ImageFile
         this.product = product;
     }
 }
-

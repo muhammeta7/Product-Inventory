@@ -1,5 +1,7 @@
 package com.prodinv.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Set;
@@ -41,8 +43,9 @@ public class Product {
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
     // TODO Relationship with images(Setters & getters below commented)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "product")
-    private Set<ImageFile> photos;
+    @OneToOne
+    @JsonIgnoreProperties("product")
+    private ImageFile photo;
 
     public Product() {
     }
@@ -127,11 +130,13 @@ public class Product {
         this.category = category;
     }
 
-    public Set<ImageFile> getPhotos() {
-        return photos;
+    public ImageFile getPhoto()
+    {
+        return photo;
     }
 
-    public void setPhoto(Set<ImageFile> photos) {
-        this.photos = photos;
+    public void setPhoto(ImageFile photo)
+    {
+        this.photo = photo;
     }
 }
