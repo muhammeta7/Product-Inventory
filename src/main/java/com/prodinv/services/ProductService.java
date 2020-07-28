@@ -1,21 +1,26 @@
 package com.prodinv.services;
 
+import com.prodinv.models.ImageFile;
 import com.prodinv.models.Product;
 import com.prodinv.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
 public class ProductService
 {
     private ProductRepository repository;
+    private ImageFileService imageFileService;
 
     @Autowired
-    public ProductService(ProductRepository repository)
+    public ProductService(ProductRepository repository, ImageFileService imageFileService)
     {
         this.repository = repository;
+        this.imageFileService = imageFileService;
     }
 
     public Product create(Product newProduct)
@@ -48,6 +53,8 @@ public class ProductService
         return repository.findByCategory(category);
     }
 
+    // TODO Product Image Management
+
     public Collection<String> listCategories()
     {
         return repository.findCategories();
@@ -56,6 +63,11 @@ public class ProductService
     public Collection<String> listAbbreviations()
     {
         return repository.findAbbreviations();
+    }
+
+    public Collection<String> listLocations()
+    {
+        return repository.findLocations();
     }
 
     public Boolean delete(Long id)
