@@ -18,7 +18,6 @@ public class ImageFile
     @Column(name = "image_bytes")
     @Basic(fetch = FetchType.LAZY)
     private byte[] imgBytes;
-    // TODO relationship with product (Setters & getters below commented)
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;
