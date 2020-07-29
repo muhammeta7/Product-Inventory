@@ -2,10 +2,11 @@ package com.prodinv.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "products",
+@Table(name = "product",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "abbreviation"})}
 )
 public class Product {
@@ -39,11 +40,11 @@ public class Product {
     @NotEmpty(message = "Category can not be empty")
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
-    // TODO Relationship with images(Setters & getters below commented)
-//    @OneToMany
-//    private Set<ImageFile> photos;
+    @OneToMany(mappedBy = "product")
+    private Set<ImageFile> photos;
 
     public Product() {
+        this.photos = new HashSet<>();
     }
 
     public void setId(Long id) {
@@ -126,11 +127,11 @@ public class Product {
         this.category = category;
     }
 
-//    public Set<ImageFile> getPhotos() {
-//        return photos;
-//    }
-//
-//    public void setPhoto(Set<ImageFile> photos) {
-//        this.photos = photos;
-//    }
+    public Set<ImageFile> getPhotos() {
+        return photos;
+    }
+
+    public void setPhoto(Set<ImageFile> photos) {
+        this.photos = photos;
+    }
 }
