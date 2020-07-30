@@ -40,8 +40,8 @@ public class Product {
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
     // TODO Relationship with images(Setters & getters below commented)
-//    @OneToMany
-//    private Set<ImageFile> photos;
+    @OneToMany
+    private Set<Photo> photos;
 
     public Product() {
     }
@@ -126,7 +126,15 @@ public class Product {
         this.category = category;
     }
 
-//    public Set<ImageFile> getPhotos() {
+    public Set<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Set<Photo> photos) {
+        this.photos = photos;
+    }
+
+    //    public Set<ImageFile> getPhotos() {
 //        return photos;
 //    }
 //
