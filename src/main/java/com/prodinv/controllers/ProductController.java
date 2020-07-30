@@ -82,11 +82,11 @@ public class ProductController
         return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
     }
 
-    @PostMapping("products/photo")
-    public ResponseEntity<Product> createProd(@Valid @RequestPart("product") Product product, @RequestPart("photo") MultipartFile file) throws IOException
-    {
-        return  new ResponseEntity<>(service.createProd(product, file), HttpStatus.OK);
-    }
+//    @PostMapping("products/photo")
+//    public ResponseEntity<Product> createProd(@Valid @RequestPart("product") Product product, @RequestPart("photo") MultipartFile file) throws IOException
+//    {
+//        return  new ResponseEntity<>(service.createProd(product, file), HttpStatus.OK);
+//    }
 
     @DeleteMapping("products/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id)
