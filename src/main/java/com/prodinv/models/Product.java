@@ -40,8 +40,8 @@ public class Product {
     @NotEmpty(message = "Category can not be empty")
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
-    @OneToMany(mappedBy = "product")
-    private Set<ImageFile> photos;
+    @OneToMany
+    private Set<Photo> photos;
 
     public Product() {
         this.photos = new HashSet<>();
@@ -127,11 +127,21 @@ public class Product {
         this.category = category;
     }
 
-    public Set<ImageFile> getPhotos() {
+
+    public Set<Photo> getPhotos() {
         return photos;
     }
 
-    public void setPhoto(Set<ImageFile> photos) {
+    public void setPhotos(Set<Photo> photos) {
         this.photos = photos;
     }
+
+    //    public Set<ImageFile> getPhotos() {
+//        return photos;
+//    }
+//
+//    public void setPhoto(Set<ImageFile> photos) {
+//        this.photos = photos;
+//    }
+
 }
