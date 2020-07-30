@@ -47,8 +47,7 @@ public class Product {
     @JsonIgnoreProperties("product")
     private ImageFile photo;
 
-    public Product() {
-    }
+    public Product() {}
 
     public void setId(Long id) {
         this.id = id;
