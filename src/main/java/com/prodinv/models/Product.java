@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "products",
+@Table(name = "product",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "abbreviation"})}
 )
 public class Product {
@@ -128,6 +128,7 @@ public class Product {
         this.category = category;
     }
 
+
     public Set<Photo> getPhotos() {
         return photos;
     }
@@ -143,4 +144,5 @@ public class Product {
 //    public void setPhoto(Set<ImageFile> photos) {
 //        this.photos = photos;
 //    }
+
 }

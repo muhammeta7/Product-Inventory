@@ -9,10 +9,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class ProductService
 {
+    private final static Logger logger = Logger.getLogger(Product.class.getName());
     private ProductRepository repository;
 
     @Autowired
@@ -20,6 +23,19 @@ public class ProductService
     {
         this.repository = repository;
     }
+
+    // Attempt
+//    public Product createProd(Product newProduct, MultipartFile file) throws IOException
+//    {
+//        try{
+//            ImageFile uploadImg = imageFileService.uploadImage(file);
+//            newProduct.getPhotos().add(uploadImg);
+//        } catch(Exception e){
+//            logger.log(Level.INFO, "Error creating product");
+//            throw new IOException("Product could not be created!");
+//        }
+//        return  repository.save(newProduct);
+//    }
 
     public Product create(Product newProduct)
     {

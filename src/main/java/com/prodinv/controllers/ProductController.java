@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -77,6 +80,12 @@ public class ProductController
     public ResponseEntity<Product> create(@Valid @RequestBody Product product)
     {
         return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
+    }
+
+    @PostMapping("products/photo")
+    public ResponseEntity<Product> createProd(@Valid @RequestPart("product") Product product, @RequestPart("photo") MultipartFile file) throws IOException
+    {
+        return  new ResponseEntity<>(service.createProd(product, file), HttpStatus.OK);
     }
 
     @DeleteMapping("products/{id}")

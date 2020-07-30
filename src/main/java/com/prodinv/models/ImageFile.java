@@ -8,9 +8,11 @@ import javax.validation.constraints.*;
 //        uniqueConstraints={@UniqueConstraint(columnNames={"file_name"})})
 public class ImageFile
 {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
 //    @Column(name = "file_name")
 //    private String fileName;
 //    private String type;
@@ -72,12 +74,6 @@ public class ImageFile
 //        this.imgBytes = imgBytes;
 //    }
 
-//    public Product getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(Product product) {
-//        this.product = product;
-//    }
+   
 }
 
