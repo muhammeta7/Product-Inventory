@@ -34,7 +34,7 @@ public class ProductService
         try
         {
             ImageFile img = imageFileService.uploadImage(imageFile);
-
+//            TODO: When products can have multiple images
 //            Set<ImageFile> pictures = new HashSet<>();
 //            pictures.add(img);
 //
