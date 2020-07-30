@@ -41,11 +41,11 @@ public class Product {
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
     // TODO Relationship with images(Setters & getters below commented)
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private Set<Photo> photos;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+//    private Set<Photo> photos;
 
     public Product() {
-        this.photos = new HashSet<>();
+//        this.photos = new HashSet<>();
     }
 
     public void setId(Long id) {
@@ -129,13 +129,13 @@ public class Product {
     }
 
 
-    public Set<Photo> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(Set<Photo> photos) {
-        this.photos = photos;
-    }
+//    public Set<Photo> getPhotos() {
+//        return photos;
+//    }
+//
+//    public void setPhotos(Set<Photo> photos) {
+//        this.photos = photos;
+//    }
 
     //    public Set<ImageFile> getPhotos() {
 //        return photos;

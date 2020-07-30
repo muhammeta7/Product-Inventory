@@ -1,5 +1,6 @@
 package com.prodinv.models;
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "image_table")
@@ -16,11 +17,17 @@ public class Photo {
     @Column(name = "picByte", length = 1000)
     @Basic(fetch = FetchType.LAZY)
     private byte[] picByte;
-    @ManyToOne
-    @JoinColumn(name="product_id")
-    private Product product;
+//    @ManyToOne
+//    @JoinColumn(name="product_id")
+//    private Product product;
 
     public Photo() {
+    }
+
+    public Photo(String name, String type, byte[] picByte) {
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
     }
 
     public Long getId() {
@@ -55,11 +62,22 @@ public class Photo {
         this.picByte = picByte;
     }
 
-    public Product getProduct() {
-        return product;
-    }
+//    public Product getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(Product product) {
+//        this.product = product;
+//    }
 
-    public void setProduct(Product product) {
-        this.product = product;
+
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", picByte=" + Arrays.toString(picByte) +
+                '}';
     }
 }
