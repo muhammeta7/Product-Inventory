@@ -14,13 +14,11 @@ import java.util.*;
 public class ProductService
 {
     private ProductRepository repository;
-    private ImageFileService imageFileService;
 
     @Autowired
-    public ProductService(ProductRepository repository, ImageFileService imageFileService)
+    public ProductService(ProductRepository repository)
     {
         this.repository = repository;
-        this.imageFileService = imageFileService;
     }
 
     public Product create(Product newProduct)

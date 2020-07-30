@@ -16,43 +16,43 @@ import java.util.logging.Logger;
 @Service
 public class ImageFileService
 {
-    private final static Logger logger = Logger.getLogger(ImageFileService.class.getName());
-    private ImageFileRepository repository;
-
-    @Autowired
-    public ImageFileService(ImageFileRepository repository)
-    {
-        this.repository = repository;
-    }
-
-    public ImageFile uploadImage(MultipartFile file) throws IOException
-    {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-        if(!file.getContentType().contains("image/"))
-        {
-            throw new IOException("Endpoint only accepts valid image files.  File was of type: " + file.getContentType() + "   ");
-        }
-
-        logger.log(Level.INFO, "UPLOAD File name: " + fileName);
-        logger.log(Level.INFO, "UPLOAD Content Type: " + file.getContentType());
-        byte[] fileBytes = file.getBytes();
-        logger.log(Level.INFO, String.format("UPLOAD File size: %.2f KB", fileBytes.length / 1024.0));
-        ImageFile img = new ImageFile(fileName, file.getContentType(), fileBytes);
-
-        return repository.save(img);
-    }
-
-    public ImageFile findById(Long id) throws FileNotFoundException
-    {
-        return repository.findById(id)
-                .orElseThrow(() -> new FileNotFoundException("File not found with id " + id));
-    }
-
-    @Transactional
-    public ImageFile findByName(String name) throws FileNotFoundException
-    {
-        return repository.findByFileName(name)
-                .orElseThrow(() -> new FileSystemNotFoundException(("File not found with name " + name)));
-    }
+//    private final static Logger logger = Logger.getLogger(ImageFileService.class.getName());
+//    private ImageFileRepository repository;
+//
+//    @Autowired
+//    public ImageFileService(ImageFileRepository repository)
+//    {
+//        this.repository = repository;
+//    }
+//
+//    public ImageFile uploadImage(MultipartFile file) throws IOException
+//    {
+//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//
+//        if(!file.getContentType().contains("image/"))
+//        {
+//            throw new IOException("Endpoint only accepts valid image files.  File was of type: " + file.getContentType() + "   ");
+//        }
+//
+//        logger.log(Level.INFO, "UPLOAD File name: " + fileName);
+//        logger.log(Level.INFO, "UPLOAD Content Type: " + file.getContentType());
+//        byte[] fileBytes = file.getBytes();
+//        logger.log(Level.INFO, String.format("UPLOAD File size: %.2f KB", fileBytes.length / 1024.0));
+//        ImageFile img = new ImageFile(fileName, file.getContentType(), fileBytes);
+//
+//        return repository.save(img);
+//    }
+//
+//    public ImageFile findById(Long id) throws FileNotFoundException
+//    {
+//        return repository.findById(id)
+//                .orElseThrow(() -> new FileNotFoundException("File not found with id " + id));
+//    }
+//
+//    @Transactional
+//    public ImageFile findByName(String name) throws FileNotFoundException
+//    {
+//        return repository.findByFileName(name)
+//                .orElseThrow(() -> new FileSystemNotFoundException(("File not found with name " + name)));
+//    }
 }

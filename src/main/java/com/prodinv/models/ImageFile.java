@@ -3,14 +3,14 @@ package com.prodinv.models;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-//@Entity
+@Entity
 //@Table(name = "image",
 //        uniqueConstraints={@UniqueConstraint(columnNames={"file_name"})})
 public class ImageFile
 {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 //    @Column(name = "file_name")
 //    private String fileName;
 //    private String type;
@@ -23,7 +23,7 @@ public class ImageFile
 ////    private Product product;
 //
 //    // It's on one line.  Are you happy? :P
-//    public ImageFile() {}
+    public ImageFile() {}
 //
 //    public ImageFile(String fileName, String contentType, byte[] imgBytes)
 //    {
@@ -32,15 +32,15 @@ public class ImageFile
 //        this.imgBytes = imgBytes;
 //    }
 //
-//    public Long getId()
-//    {
-//        return id;
-//    }
-//
-//    public void setId(Long id)
-//    {
-//        this.id = id;
-//    }
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 //
 //    public String getFileName()
 //    {

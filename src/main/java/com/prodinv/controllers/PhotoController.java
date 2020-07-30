@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 public class PhotoController {
 
 
-    private PhotoRepository imageRepository;
+    private PhotoRepository photoRepository;
 
     @Autowired
-    public PhotoController(PhotoRepository imageRepository) {
-        this.imageRepository = imageRepository;
+    public PhotoController(PhotoRepository photoRepository) {
+        this.photoRepository = photoRepository;
     }
+
 
 
 }
