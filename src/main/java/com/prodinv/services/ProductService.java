@@ -28,6 +28,26 @@ public class ProductService
         return repository.save(newProduct);
     }
 
+    // TODO Product Image Management -- Needs to be more elegant
+    public Product create(Product newProduct, MultipartFile imageFile) throws IOException
+    {
+        try
+        {
+            ImageFile img = imageFileService.uploadImage(imageFile);
+//            TODO: When products can have multiple images
+//            Set<ImageFile> pictures = new HashSet<>();
+//            pictures.add(img);
+//
+//            newProduct.setPhoto(pictures);
+            newProduct.setPhoto(img);
+        }
+        catch(Exception e)
+        {
+            // Will log error
+        }
+        return repository.save(newProduct);
+    }
+
     public Iterable<Product> index()
     {
         return repository.findAll();
@@ -52,8 +72,6 @@ public class ProductService
     {
         return repository.findByCategory(category);
     }
-
-    // TODO Product Image Management
 
     public Collection<String> listCategories()
     {
