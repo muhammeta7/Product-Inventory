@@ -79,10 +79,6 @@ public class ProductController
 //        return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
 //    }
 
-
-    // Error: 2020-07-28 14:28:30.887  WARN 18133 --- [nio-8080-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver :
-    //      Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'application/octet-
-    //      stream' not supported]
     @PostMapping("/products")
     public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
                                           @RequestPart("image")MultipartFile image) throws IOException

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -31,20 +32,26 @@ public class ProductService
     // TODO Product Image Management -- Needs to be more elegant
     public Product create(Product newProduct, MultipartFile imageFile) throws IOException
     {
-        try
-        {
-            ImageFile img = imageFileService.uploadImage(imageFile);
-//            TODO: When products can have multiple images
-//            Set<ImageFile> pictures = new HashSet<>();
-//            pictures.add(img);
-//
-//            newProduct.setPhoto(pictures);
-            newProduct.setPhoto(img);
-        }
-        catch(Exception e)
-        {
-            // Will log error
-        }
+//        try
+//        {
+//            ImageFile img = imageFileService.uploadImage(imageFile);
+////            TODO: When products can have multiple images
+////            Set<ImageFile> pictures = new HashSet<>();
+////            pictures.add(img);
+////
+////            newProduct.setPhoto(pictures);
+//            newProduct.setPhoto(img);
+//        }
+//        catch(Exception e)
+//        {
+//            // Will log error
+//        }
+
+        ImageFile img = new ImageFile(imageFile.getOriginalFilename(), imageFile.getContentType(),
+                imageFile.getBytes());
+        Set<ImageFile> imgSet = new HashSet<>();
+        imgSet.add(img);
+        newProduct.setPhotos(imgSet);
         return repository.save(newProduct);
     }
 

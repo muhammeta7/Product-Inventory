@@ -15,14 +15,12 @@ public class ImageFile
     private Long id;
     @Column(name = "file_name")
     private String fileName;
+    @Pattern(regexp = "^image/.+")
     private String type;
     @Lob
     @Column(name = "image_bytes")
-    @Basic(fetch = FetchType.LAZY)
     private byte[] imgBytes;
-    // TODO relationship with product (Setters & getters below commented)
-    @OneToOne
-    @JsonIgnoreProperties("photos")
+    @ManyToOne
     private Product product;
 
     // It's on one line.  Are you happy? :P
