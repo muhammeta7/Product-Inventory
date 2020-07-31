@@ -10,14 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
 public class ProductController
 {
-    private ProductService service;
+    private final ProductService service;
 
     @Autowired
     public ProductController(ProductService service)
@@ -32,21 +31,27 @@ public class ProductController
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Optional<Product>> findById(@PathVariable Long id)
+    public ResponseEntity<?> findById(@PathVariable Long id)
     {
-        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+        return this.service.findById(id)
+                .map(product -> ResponseEntity.ok().body(product))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/products/name")
-    public ResponseEntity<Product> findByName(@RequestParam String name)
+    public ResponseEntity<?> findByName(@RequestParam String name)
     {
-        return new ResponseEntity<>(service.findByName(name), HttpStatus.OK);
+        return this.service.findByName(name)
+                .map(product -> ResponseEntity.ok().body(product))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/products/abbr")
-    public ResponseEntity<Product> findByAbbr(@RequestParam String abbr)
+    public ResponseEntity<?> findByAbbr(@RequestParam String abbr)
     {
-        return new ResponseEntity<>(service.findByAbbr(abbr), HttpStatus.OK);
+        return this.service.findByAbbr(abbr)
+                .map(product -> ResponseEntity.ok().body(product))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/products/category")
@@ -73,15 +78,9 @@ public class ProductController
         return new ResponseEntity<>(service.listLocations(), HttpStatus.OK);
     }
 
-//    @PostMapping("/products")
-//    public ResponseEntity<Product> create(@Valid @RequestBody Product product)
-//    {
-//        return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
-//    }
-
     @PostMapping("/products")
     public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
-                                          @RequestPart("image")MultipartFile image) throws IOException
+                                          @RequestPart(value = "image", required = false)MultipartFile image) throws IOException
     {
         return new ResponseEntity<>(service.create(product, image), HttpStatus.CREATED);
     }

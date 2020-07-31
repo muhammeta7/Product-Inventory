@@ -42,7 +42,6 @@ public class Product {
     @NotEmpty(message = "Category can not be empty")
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
-    // TODO Relationship with images(Setters & getters below commented)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("product")
     private Set<ImageFile> photos;
