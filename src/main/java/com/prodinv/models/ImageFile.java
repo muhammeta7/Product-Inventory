@@ -17,8 +17,7 @@ public class ImageFile
     private String fileName;
     @Pattern(regexp = "^image/.+")
     private String type;
-    @Lob
-    @Column(name = "image_bytes")
+    @Column(name = "image_bytes", columnDefinition = "bytea")
     private byte[] imgBytes;
     @ManyToOne
     private Product product;
