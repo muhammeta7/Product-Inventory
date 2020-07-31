@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class ImageFileService
 {
     private final static Logger logger = Logger.getLogger(ImageFileService.class.getName());
-    private ImageFileRepository repository;
+    private final ImageFileRepository repository;
 
     @Autowired
     public ImageFileService(ImageFileRepository repository)
