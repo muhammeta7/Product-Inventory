@@ -31,20 +31,23 @@ public class ProductService
     // TODO Product Image Management -- Needs to be more elegant
     public Product create(Product newProduct, MultipartFile imageFile) throws IOException
     {
-        try
-        {
-            ImageFile img = imageFileService.uploadImage(imageFile);
-//            TODO: When products can have multiple images
-//            Set<ImageFile> pictures = new HashSet<>();
-//            pictures.add(img);
-//
-//            newProduct.setPhoto(pictures);
-            newProduct.setPhoto(img);
-        }
-        catch(Exception e)
-        {
-            // Will log error
-        }
+//        try
+//        {
+//            ImageFile img = imageFileService.uploadImage(imageFile);
+////            TODO: When products can have multiple images
+////            Set<ImageFile> pictures = new HashSet<>();
+////            pictures.add(img);
+////
+////            newProduct.setPhoto(pictures);
+//            newProduct.setPhoto(img);
+//        }
+//        catch(Exception e)
+//        {
+//            // Will log error
+//        }
+
+        newProduct.setPhoto(new ImageFile(imageFile.getOriginalFilename(), imageFile.getContentType(),
+                imageFile.getBytes()));
         return repository.save(newProduct);
     }
 

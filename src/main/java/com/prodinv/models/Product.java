@@ -1,6 +1,7 @@
 package com.prodinv.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.prodinv.validation.ImageFileConstraint;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -43,8 +44,9 @@ public class Product {
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
     // TODO Relationship with images(Setters & getters below commented)
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JsonIgnoreProperties("product")
+    @ImageFileConstraint
     private ImageFile photo;
 
     public Product() {
