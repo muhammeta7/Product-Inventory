@@ -14,15 +14,13 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>
 {
-//    @Query("SELECT p FROM Product p WHERE p.name = :name")
-//    Product findByName(@Param("name") String searchTerm);
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) = LOWER(:name)")
+    Optional<Product> findByName(@Param("name") String searchTerm);
 
-    Optional<Product> findByName(String searchTerm);
-
-    @Query("SELECT p FROM Product p WHERE p.abbreviation = :abbreviation")
+    @Query("SELECT p FROM Product p WHERE LOWER(p.abbreviation) = LOWER(:abbreviation)")
     Optional<Product> findByAbbr(@Param("abbreviation") String searchTerm);
 
-    @Query("SELECT p FROM Product p WHERE p.category = :category")
+    @Query("SELECT p FROM Product p WHERE LOWER(p.category) = LOWER(:category)")
     Collection<Product> findByCategory(@Param("category") String searchTerm);
 
     @Query("SELECT DISTINCT p.category FROM Product p ORDER BY p.category ASC")
