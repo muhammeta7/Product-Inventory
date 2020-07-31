@@ -28,7 +28,8 @@ public class ProductService
     // TODO Product Image Management -- Needs to be more elegant
     public Product create(Product newProduct, MultipartFile imageFile) throws IOException
     {
-        if(imageFile != null)
+        // TODO: TNeed a better test for if imageFile is real or not
+        if(imageFile.getBytes().length > 0)
         {
             ImageFile img = new ImageFile(imageFile.getOriginalFilename(), imageFile.getContentType(),
                     imageFile.getBytes());

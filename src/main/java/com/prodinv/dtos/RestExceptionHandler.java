@@ -15,8 +15,13 @@ import java.io.StringWriter;
 @ControllerAdvice
 public class RestExceptionHandler
 {
+    private final MessageSource messageSource;
+
     @Autowired
-    MessageSource messageSource;
+    public RestExceptionHandler(MessageSource messageSource)
+    {
+        this.messageSource = messageSource;
+    }
 
     @ExceptionHandler(InvalidImageFileException.class)
     public ResponseEntity<?> handleInvalidImageFileException(InvalidImageFileException iife, HttpServletRequest request)
