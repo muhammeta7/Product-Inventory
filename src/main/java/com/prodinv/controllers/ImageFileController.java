@@ -20,7 +20,7 @@ import java.util.logging.Level;
 @CrossOrigin
 public class ImageFileController
 {
-    private ImageFileService service;
+    private final ImageFileService service;
     private final static Logger logger = Logger.getLogger(ImageFileController.class.getName());
 
     @Autowired

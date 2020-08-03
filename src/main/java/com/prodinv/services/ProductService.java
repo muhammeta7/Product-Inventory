@@ -6,21 +6,18 @@ import com.prodinv.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.*;
 
 @Service
 public class ProductService
 {
-    private ProductRepository repository;
-    private ImageFileService imageFileService;
+    private final ProductRepository repository;
 
     @Autowired
     public ProductService(ProductRepository repository, ImageFileService imageFileService)
     {
         this.repository = repository;
-        this.imageFileService = imageFileService;
     }
 
     public Product create(Product newProduct)
@@ -31,20 +28,15 @@ public class ProductService
     // TODO Product Image Management -- Needs to be more elegant
     public Product create(Product newProduct, MultipartFile imageFile) throws IOException
     {
-        try
+        if(imageFile != null)
         {
-            ImageFile img = imageFileService.uploadImage(imageFile);
-//            TODO: When products can have multiple images
-//            Set<ImageFile> pictures = new HashSet<>();
-//            pictures.add(img);
-//
-//            newProduct.setPhoto(pictures);
-            newProduct.setPhoto(img);
+            ImageFile img = new ImageFile(imageFile.getOriginalFilename(), imageFile.getContentType(),
+                    imageFile.getBytes());
+            Set<ImageFile> imgSet = new HashSet<>();
+            imgSet.add(img);
+            newProduct.setPhotos(imgSet);
         }
-        catch(Exception e)
-        {
-            // Will log error
-        }
+
         return repository.save(newProduct);
     }
 
@@ -58,12 +50,12 @@ public class ProductService
         return repository.findById(id);
     }
 
-    public Product findByName(String productName)
+    public Optional<Product> findByName(String productName)
     {
         return repository.findByName(productName);
     }
 
-    public Product findByAbbr(String abbr)
+    public Optional<Product> findByAbbr(String abbr)
     {
         return repository.findByAbbr(abbr);
     }
