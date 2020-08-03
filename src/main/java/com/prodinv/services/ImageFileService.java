@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,9 +51,8 @@ public class ImageFileService
     }
 
     @Transactional
-    public ImageFile findByName(String name) throws FileNotFoundException
+    public Optional<ImageFile> findByName(String name) throws FileNotFoundException
     {
-        return repository.findByFileName(name)
-                .orElseThrow(() -> new FileSystemNotFoundException(("File not found with name " + name)));
+        return repository.findByFileName(name);
     }
 }
