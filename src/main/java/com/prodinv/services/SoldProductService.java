@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class SoldProductService
 {
-    private SoldProductRepository repository;
+    private final SoldProductRepository repository;
 
     @Autowired
     public SoldProductService(SoldProductRepository repository)

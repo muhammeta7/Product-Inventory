@@ -9,17 +9,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>
 {
-//    @Query("SELECT p FROM Product p WHERE p.name = :name")
-//    Product findByName(@Param("name") String searchTerm);
-
-    Product findByName(String searchTerm);
+    @Query("SELECT p FROM Product p WHERE p.name = :name")
+    Optional<Product> findByName(@Param("name") String searchTerm);
 
     @Query("SELECT p FROM Product p WHERE p.abbreviation = :abbreviation")
-    Product findByAbbr(@Param("abbreviation") String searchTerm);
+    Optional<Product> findByAbbr(@Param("abbreviation") String searchTerm);
 
     @Query("SELECT p FROM Product p WHERE p.category = :category")
     Collection<Product> findByCategory(@Param("category") String searchTerm);

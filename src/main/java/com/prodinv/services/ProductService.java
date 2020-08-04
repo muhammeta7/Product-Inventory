@@ -1,12 +1,12 @@
 package com.prodinv.services;
 
+import com.prodinv.exceptions.InvalidImageFileException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.models.Product;
 import com.prodinv.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
@@ -15,30 +15,39 @@ import java.util.logging.Logger;
 @Service
 public class ProductService
 {
-    private final static Logger logger = Logger.getLogger(Product.class.getName());
-    private ProductRepository repository;
+    private final ProductRepository repository;
 
     @Autowired
-    public ProductService(ProductRepository repository)
+    public ProductService(ProductRepository repository, ImageFileService imageFileService)
     {
         this.repository = repository;
     }
 
-    // Attempt
-//    public Product createProd(Product newProduct, MultipartFile file) throws IOException
-//    {
-//        try{
-//            ImageFile uploadImg = imageFileService.uploadImage(file);
-//            newProduct.getPhotos().add(uploadImg);
-//        } catch(Exception e){
-//            logger.log(Level.INFO, "Error creating product");
-//            throw new IOException("Product could not be created!");
-//        }
-//        return  repository.save(newProduct);
-//    }
-
     public Product create(Product newProduct)
     {
+        return repository.save(newProduct);
+    }
+
+    // TODO Product Image Management -- Needs to be more elegant
+    public Product create(Product newProduct, MultipartFile imageFile) throws IOException
+    {
+        // TODO: TNeed a better test for if imageFile is real or not
+        if(imageFile.getBytes().length > 0)
+        {
+            try
+            {
+                ImageFile img = new ImageFile(imageFile.getOriginalFilename(), imageFile.getContentType(),
+                        imageFile.getBytes());
+                Set<ImageFile> imgSet = new HashSet<>();
+                imgSet.add(img);
+                newProduct.setPhotos(imgSet);
+            }
+            catch(Exception e)
+            {
+                throw new InvalidImageFileException();
+            }
+        }
+
         return repository.save(newProduct);
     }
 
@@ -52,12 +61,12 @@ public class ProductService
         return repository.findById(id);
     }
 
-    public Product findByName(String productName)
+    public Optional<Product> findByName(String productName)
     {
         return repository.findByName(productName);
     }
 
-    public Product findByAbbr(String abbr)
+    public Optional<Product> findByAbbr(String abbr)
     {
         return repository.findByAbbr(abbr);
     }
@@ -66,8 +75,6 @@ public class ProductService
     {
         return repository.findByCategory(category);
     }
-
-    // TODO Product Image Management
 
     public Collection<String> listCategories()
     {

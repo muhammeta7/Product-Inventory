@@ -1,5 +1,7 @@
 package com.prodinv.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.HashSet;
@@ -12,6 +14,7 @@ import java.util.Set;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "product_id")
     private Long id;
     @NotEmpty(message = "Name can not be empty")
     @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long.")
@@ -40,12 +43,11 @@ public class Product {
     @NotEmpty(message = "Category can not be empty")
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
-    // TODO Relationship with images(Setters & getters below commented)
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-//    private Set<Photo> photos;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<ImageFile> photos;
 
     public Product() {
-//        this.photos = new HashSet<>();
+        this.photos = new HashSet<>();
     }
 
     public void setId(Long id) {
@@ -128,21 +130,13 @@ public class Product {
         this.category = category;
     }
 
+    public Set<ImageFile> getPhotos()
+    {
+        return photos;
+    }
 
-//    public Set<Photo> getPhotos() {
-//        return photos;
-//    }
-//
-//    public void setPhotos(Set<Photo> photos) {
-//        this.photos = photos;
-//    }
-
-    //    public Set<ImageFile> getPhotos() {
-//        return photos;
-//    }
-//
-//    public void setPhoto(Set<ImageFile> photos) {
-//        this.photos = photos;
-//    }
-
+    public void setPhotos(Set<ImageFile> photos)
+    {
+        this.photos = photos;
+    }
 }

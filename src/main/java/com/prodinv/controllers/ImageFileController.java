@@ -16,52 +16,56 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-//@RestController
-//@RequestMapping("/api/images")
-//@CrossOrigin
+@RestController
+@RequestMapping("/api/images")
+@CrossOrigin
 public class ImageFileController
 {
-//    private ImageFileService service;
-//    private final static Logger logger = Logger.getLogger(ImageFileController.class.getName());
-//
-//    @Autowired
-//    public ImageFileController(ImageFileService service)
+    private final ImageFileService service;
+    private final static Logger logger = Logger.getLogger(ImageFileController.class.getName());
+
+    @Autowired
+    public ImageFileController(ImageFileService service)
+    {
+        this.service = service;
+    }
+
+    @PostMapping(value = "/upload")
+    public ResponseEntity<ImageFile> uploadImage(@Valid @RequestPart("image") MultipartFile image) throws IOException
+    {
+        ImageFile upload;
+
+        try
+        {
+            upload = service.uploadImage(image);
+        }
+        catch(IOException e)
+        {
+            logger.log(Level.WARNING, "Attempted to upload a non-image file: " + image.getOriginalFilename() + ", Type: " + image.getContentType());
+            throw new InvalidImageFileException(e.getMessage(), e.getCause());
+        }
+
+        return new ResponseEntity<>(upload, HttpStatus.CREATED);
+    }
+
+//    @GetMapping("/{id}")
+//    public ResponseEntity<ImageFile> findImageById(@PathVariable Long id) throws FileNotFoundException
 //    {
-//        this.service = service;
+//        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
 //    }
-//
-//    @PostMapping(value = "/upload")
-//    public ResponseEntity<ImageFile> uploadImage(@Valid @RequestParam("image") MultipartFile image) throws IOException
-//    {
-//        ImageFile upload;
-//
-//        try
-//        {
-//            upload = service.uploadImage(image);
-//        }
-//        catch(IOException e)
-//        {
-//            logger.log(Level.WARNING, "Attempted to upload a non-image file: " + image.getOriginalFilename() + ", Type: " + image.getContentType());
-//            throw new InvalidImageFileException(e.getMessage(), e.getCause());
-//        }
-//
-//        return new ResponseEntity<>(upload, HttpStatus.CREATED);
-//    }
-//
-////    @GetMapping("/{id}")
-////    public ResponseEntity<ImageFile> findImageById(@PathVariable Long id) throws FileNotFoundException
-////    {
-////        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
-////    }
-//
-//    @GetMapping(value = "/{name}")
-//    public ResponseEntity<byte[]> findImageByName(@PathVariable String name) throws FileNotFoundException
-//    {
-//        ImageFile img = service.findByName(name);
-//
-//        return ResponseEntity
-//                .ok()
-//                .contentType(MediaType.valueOf(img.getType()))
-//                .body(img.getImgBytes());
-//    }
+
+    @GetMapping(value = "/{name}")
+    public ResponseEntity<byte[]> findImageByName(@PathVariable String name) throws FileNotFoundException
+    {
+
+        return this.service.findByName(name)
+                .map(img -> ResponseEntity.ok()
+                        .contentType(MediaType.valueOf(img.getType()))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
+                        .body(img.getImgBytes()))
+                .orElse(ResponseEntity
+                        .notFound()
+                        .build());
+    }
 }
+
