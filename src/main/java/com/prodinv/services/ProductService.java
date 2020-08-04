@@ -3,6 +3,7 @@ package com.prodinv.services;
 import com.prodinv.exceptions.InvalidImageFileException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.models.Product;
+import com.prodinv.repositories.ImageFileRepository;
 import com.prodinv.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,86 +16,88 @@ import java.util.*;
 @Service
 public class ProductService
 {
-    private final ProductRepository repository;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public ProductService(ProductRepository repository, ImageFileService imageFileService)
+    public ProductService(ProductRepository productRepository)
     {
-        this.repository = repository;
+        this.productRepository = productRepository;
     }
 
     public Product create(Product newProduct)
     {
-        return repository.save(newProduct);
+        return productRepository.save(newProduct);
     }
 
     // TODO Product Image Management -- Needs to be more elegant
     public Product create(Product newProduct, @NotNull MultipartFile imageFile) throws IOException
     {
-        // TODO: TNeed a better test for if imageFile is real or not
+        // TODO: Need a better test for if imageFile is real or not
         if(imageFile.getBytes().length > 0)
         {
             try
             {
                 ImageFile img = new ImageFile(imageFile.getOriginalFilename(), imageFile.getContentType(),
                         imageFile.getBytes());
-                Set<ImageFile> imgSet = new HashSet<>();
-                imgSet.add(img);
-                newProduct.setPhotos(imgSet);
+                newProduct.getPhotos().add(img);
                 img.setProduct(newProduct);
             }
             catch(Exception e)
             {
-                throw new InvalidImageFileException();
+                if(e instanceof InvalidImageFileException)
+                {
+                    throw new InvalidImageFileException();
+                }
+                throw new IOException();
             }
         }
 
-        return repository.save(newProduct);
+        return productRepository.save(newProduct);
     }
 
     public Iterable<Product> index()
     {
-        return repository.findAll();
+        return productRepository.findAll();
     }
 
     public Optional<Product> findById(Long id)
     {
-        return repository.findById(id);
+        return productRepository.findById(id);
     }
 
     public Optional<Product> findByName(String productName)
     {
-        return repository.findByName(productName);
+        return productRepository.findByName(productName);
     }
 
     public Optional<Product> findByAbbr(String abbr)
     {
-        return repository.findByAbbr(abbr);
+        return productRepository.findByAbbr(abbr);
     }
 
     public Collection<Product> findByCategory(String category)
     {
-        return repository.findByCategory(category);
+        return productRepository.findByCategory(category);
     }
 
     public Collection<String> listCategories()
     {
-        return repository.findCategories();
+        return productRepository.findCategories();
     }
 
     public Collection<String> listAbbreviations()
     {
-        return repository.findAbbreviations();
+        return productRepository.findAbbreviations();
     }
 
     public Collection<String> listLocations()
     {
-        return repository.findLocations();
+        return productRepository.findLocations();
     }
 
     public Boolean delete(Long id)
     {
-        repository.deleteById(id);
+        productRepository.deleteById(id);
         return true;
     }
 }

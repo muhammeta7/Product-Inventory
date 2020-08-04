@@ -82,7 +82,7 @@ public class ProductController
     @PostMapping(value = "/products",
                 consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
-                                          @RequestPart(value = "image", required = false)MultipartFile image) throws IOException
+                                          @RequestPart(value = "image", required = false) MultipartFile image) throws IOException
 //@PostMapping("/products")
 //public ResponseEntity<Product> create(@Valid @ModelAttribute("product") Product product,
 //                                      @RequestPart(value = "image", required = false) MultipartFile image) throws IOException

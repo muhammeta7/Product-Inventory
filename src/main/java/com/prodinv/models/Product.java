@@ -12,7 +12,7 @@ import java.util.Set;
 )
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "product_id")
     private Long id;
     @NotEmpty(message = "Name can not be empty")
@@ -42,8 +42,9 @@ public class Product {
     @NotEmpty(message = "Category can not be empty")
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
     @JsonIgnoreProperties("product")
+    @NotNull
     private Set<ImageFile> photos;
 
     public Product() {
