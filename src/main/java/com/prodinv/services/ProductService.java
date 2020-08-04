@@ -7,6 +7,8 @@ import com.prodinv.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.*;
 
@@ -27,7 +29,7 @@ public class ProductService
     }
 
     // TODO Product Image Management -- Needs to be more elegant
-    public Product create(Product newProduct, MultipartFile imageFile) throws IOException
+    public Product create(Product newProduct, @NotNull MultipartFile imageFile) throws IOException
     {
         // TODO: TNeed a better test for if imageFile is real or not
         if(imageFile.getBytes().length > 0)
@@ -39,6 +41,7 @@ public class ProductService
                 Set<ImageFile> imgSet = new HashSet<>();
                 imgSet.add(img);
                 newProduct.setPhotos(imgSet);
+                img.setProduct(newProduct);
             }
             catch(Exception e)
             {
