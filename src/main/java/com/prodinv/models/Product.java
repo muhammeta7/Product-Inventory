@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -45,7 +46,9 @@ public class Product {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ImageFile> photos;
 
-    public Product() {}
+    public Product() {
+        this.photos = new HashSet<>();
+    }
 
     public void setId(Long id) {
         this.id = id;
