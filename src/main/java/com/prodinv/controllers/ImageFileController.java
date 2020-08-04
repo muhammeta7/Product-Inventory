@@ -4,6 +4,7 @@ import com.prodinv.exceptions.InvalidImageFileException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.services.ImageFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -56,11 +57,14 @@ public class ImageFileController
     @GetMapping(value = "/{name}")
     public ResponseEntity<byte[]> findImageByName(@PathVariable String name) throws FileNotFoundException
     {
-        ImageFile img = service.findByName(name);
 
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.valueOf(img.getType()))
-                .body(img.getImgBytes());
+        return this.service.findByName(name)
+                .map(img -> ResponseEntity.ok()
+                        .contentType(MediaType.valueOf(img.getType()))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
+                        .body(img.getImgBytes()))
+                .orElse(ResponseEntity
+                        .notFound()
+                        .build());
     }
 }

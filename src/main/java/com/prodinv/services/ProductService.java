@@ -1,5 +1,6 @@
 package com.prodinv.services;
 
+import com.prodinv.exceptions.InvalidImageFileException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.models.Product;
 import com.prodinv.repositories.ProductRepository;
@@ -28,13 +29,21 @@ public class ProductService
     // TODO Product Image Management -- Needs to be more elegant
     public Product create(Product newProduct, MultipartFile imageFile) throws IOException
     {
-        if(imageFile != null)
+        // TODO: TNeed a better test for if imageFile is real or not
+        if(imageFile.getBytes().length > 0)
         {
-            ImageFile img = new ImageFile(imageFile.getOriginalFilename(), imageFile.getContentType(),
-                    imageFile.getBytes());
-            Set<ImageFile> imgSet = new HashSet<>();
-            imgSet.add(img);
-            newProduct.setPhotos(imgSet);
+            try
+            {
+                ImageFile img = new ImageFile(imageFile.getOriginalFilename(), imageFile.getContentType(),
+                        imageFile.getBytes());
+                Set<ImageFile> imgSet = new HashSet<>();
+                imgSet.add(img);
+                newProduct.setPhotos(imgSet);
+            }
+            catch(Exception e)
+            {
+                throw new InvalidImageFileException();
+            }
         }
 
         return repository.save(newProduct);

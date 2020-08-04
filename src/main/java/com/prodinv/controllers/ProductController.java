@@ -78,9 +78,12 @@ public class ProductController
         return new ResponseEntity<>(service.listLocations(), HttpStatus.OK);
     }
 
-    @PostMapping("/products")
-    public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
-                                          @RequestPart(value = "image", required = false)MultipartFile image) throws IOException
+//    @PostMapping("/products")
+//    public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
+//                                          @RequestPart(value = "image", required = false)MultipartFile image) throws IOException
+@PostMapping("/products")
+public ResponseEntity<Product> create(@Valid @ModelAttribute("product") Product product,
+                                      @RequestPart(value = "image", required = false) MultipartFile image) throws IOException
     {
         return new ResponseEntity<>(service.create(product, image), HttpStatus.CREATED);
     }
