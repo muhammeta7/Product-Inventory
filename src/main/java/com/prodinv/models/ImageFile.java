@@ -11,13 +11,16 @@ import javax.validation.constraints.*;
 public class ImageFile
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "file_name")
+    @NotBlank(message = "Files must have a file name.")
     private String fileName;
     @Pattern(regexp = "^image/.+", message = "Must submit a valid image format.")
+    @NotBlank(message = "File must have a content type.")
     private String type;
     @Column(name = "image_bytes", columnDefinition = "bytea")
+    @NotEmpty(message = "Files must not be empty.")
     private byte[] imgBytes;
     @ManyToOne
     @JoinColumn(name = "product_id")
