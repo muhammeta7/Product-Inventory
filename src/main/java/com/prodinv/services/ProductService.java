@@ -1,6 +1,7 @@
 package com.prodinv.services;
 
 import com.prodinv.exceptions.InvalidImageFileException;
+import com.prodinv.exceptions.ProductNotFoundException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.models.Product;
 import com.prodinv.repositories.ProductRepository;
@@ -12,11 +13,14 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class ProductService
 {
     private final ProductRepository productRepository;
+    private final Logger logger = Logger.getLogger(ProductService.class.getName());
 
     @Autowired
     public ProductService(ProductRepository productRepository)
@@ -35,6 +39,9 @@ public class ProductService
         {
             ImageFile img = new ImageFile(imageFile.getOriginalFilename(), imageFile.getContentType(),
                     imageFile.getBytes());
+            logger.log(Level.INFO, "UPLOAD File name: " + img.getFileName());
+            logger.log(Level.INFO, "UPLOAD Content Type: " + img.getType());
+            logger.log(Level.INFO, String.format("UPLOAD File size: %.2f KB", img.getImgBytes().length / 1024.0));
             newProduct.getPhotos().add(img);
             img.setProduct(newProduct);
         }
@@ -47,6 +54,32 @@ public class ProductService
         }
 
         return productRepository.save(newProduct);
+    }
+
+    public Product attachPhoto(Long productId, MultipartFile file) throws IOException
+    {
+        ImageFile img = new ImageFile(file.getOriginalFilename(), file.getContentType(), file.getBytes());
+
+        return this.productRepository.findById(productId)
+                .map(product ->
+                {
+                    product.setName(product.getName());
+                    product.setAbbreviation(product.getAbbreviation());
+                    product.setLocation(product.getLocation());
+                    product.setLength(product.getLength());
+                    product.setWidth(product.getWidth());
+                    product.setDepth(product.getDepth());
+                    product.setQty(product.getQty());
+                    product.setDescription(product.getDescription());
+                    product.setCategory(product.getCategory());
+                    product.setPhotos(product.getPhotos());
+
+                    product.getPhotos().add(img);
+                    img.setProduct(product);
+
+                    return productRepository.save(product);
+                })
+                .orElseThrow(ProductNotFoundException::new);
     }
 
     public Iterable<Product> index()

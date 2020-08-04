@@ -83,11 +83,14 @@ public class ProductController
                 consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
                                           @RequestPart(value = "image", required = false) MultipartFile image) throws IOException
-//@PostMapping("/products")
-//public ResponseEntity<Product> create(@Valid @ModelAttribute("product") Product product,
-//                                      @RequestPart(value = "image", required = false) MultipartFile image) throws IOException
     {
         return new ResponseEntity<>(service.create(product, image), HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/products/{id}/upload_photo")
+    public ResponseEntity<?> attachPhoto(@Valid @PathVariable("id") Long id, @RequestPart("image") MultipartFile image) throws IOException
+    {
+        return new ResponseEntity<>(service.attachPhoto(id, image), HttpStatus.OK);
     }
 
     @DeleteMapping("products/{id}")
