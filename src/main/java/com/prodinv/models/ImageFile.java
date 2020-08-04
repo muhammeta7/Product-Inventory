@@ -11,15 +11,17 @@ import javax.validation.constraints.*;
 public class ImageFile
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "file_name")
     private String fileName;
-    @Pattern(regexp = "^image/.+")
+    @Pattern(regexp = "^image/.+", message = "Must submit a valid image format.")
     private String type;
     @Column(name = "image_bytes", columnDefinition = "bytea")
     private byte[] imgBytes;
     @ManyToOne
+    @JoinColumn(name = "product_id")
+    @JsonIgnoreProperties("photos")
     private Product product;
 
     // It's on one line.  Are you happy? :P
