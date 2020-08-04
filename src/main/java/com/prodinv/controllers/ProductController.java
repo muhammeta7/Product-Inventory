@@ -91,8 +91,20 @@ public class ProductController
     }
 
     @DeleteMapping("products/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id)
+    public ResponseEntity<?> delete(@PathVariable Long id)
     {
-        return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
+        if(service.delete(id))
+        {
+            return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(String.format("{\"message\":\"Successfully deleted product %d\"}", id));
+        }
+        else
+        {
+            return ResponseEntity
+                    .noContent()
+                    .build();
+        }
     }
 }

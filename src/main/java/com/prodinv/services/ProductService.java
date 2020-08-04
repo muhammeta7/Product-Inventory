@@ -29,10 +29,8 @@ public class ProductService
         return productRepository.save(newProduct);
     }
 
-    // TODO Product Image Management -- Needs to be more elegant
     public Product create(Product newProduct, MultipartFile imageFile) throws IOException
     {
-        // TODO: Need a better test for if imageFile is real or not
         try
         {
             ImageFile img = new ImageFile(imageFile.getOriginalFilename(), imageFile.getContentType(),
@@ -93,7 +91,15 @@ public class ProductService
 
     public Boolean delete(Long id)
     {
-        productRepository.deleteById(id);
-        return true;
+        if(productRepository.findById(id).isPresent())
+        {
+            this.productRepository.deleteById(id);
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
