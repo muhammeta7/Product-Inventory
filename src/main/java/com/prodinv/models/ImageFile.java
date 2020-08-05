@@ -86,3 +86,4 @@ public class ImageFile
         this.product = product;
     }
 }
+
