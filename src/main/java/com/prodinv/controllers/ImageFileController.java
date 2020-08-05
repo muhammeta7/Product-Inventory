@@ -1,10 +1,13 @@
 package com.prodinv.controllers;
 
+import com.prodinv.dtos.ResponseFile;
+import com.prodinv.dtos.ResponseMessage;
 import com.prodinv.exceptions.InvalidImageFileException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.services.ImageFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +17,10 @@ import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/images")
@@ -75,5 +80,22 @@ public class ImageFileController
                         .notFound()
                         .build());
     }
+
+//    @PostMapping("/uploadFile")
+//    public ResponseEntity<ResponseMessage> uploadFile(@Valid @RequestPart("file") MultipartFile file){
+//        String message = "";
+//
+//        try{
+//            ImageFile upload = service.store(file);
+//            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+//            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+//
+//        } catch (IOException e) {
+//            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+//        }
+//    }
+
+
 }
 
