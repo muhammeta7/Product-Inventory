@@ -20,6 +20,7 @@ public class ImageFile
     @NotBlank(message = "File must have a content type.")
     private String type;
     @Column(name = "image_bytes", columnDefinition = "bytea")
+    @Lob
     @NotEmpty(message = "Files must not be empty.")
     private byte[] imgBytes;
     @ManyToOne

@@ -13,6 +13,7 @@ import java.nio.file.FileSystemNotFoundException;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 @Service
 public class ImageFileService
@@ -54,5 +55,20 @@ public class ImageFileService
     public Optional<ImageFile> findByName(String name) throws FileNotFoundException
     {
         return repository.findByFileName(name);
+    }
+
+    // TODO
+    public ImageFile store(MultipartFile file) throws IOException{
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        ImageFile daoImage = new ImageFile(fileName, file.getContentType(), file.getBytes());
+        return repository.save(daoImage);
+    }
+
+    public Optional<ImageFile> getFile(Long id){
+        return repository.findById(id);
+    }
+
+    public Stream<ImageFile> getAllFiles(){
+        return repository.findAll().stream();
     }
 }
