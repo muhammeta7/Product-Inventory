@@ -74,16 +74,8 @@ public class ProductController {
                 consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
                                           @RequestPart(value = "image", required = false)MultipartFile image) throws IOException
-//@PostMapping("/products")
-//public ResponseEntity<Product> create(@Valid @ModelAttribute("product") Product product,
-//                                      @RequestPart(value = "image", required = false) MultipartFile image) throws IOException
     {
         return new ResponseEntity<>(service.create(product, image), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/products/create")
-    public ResponseEntity<Product> create(@Valid @ModelAttribute("product") Product product){
-        return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
     }
 
     @DeleteMapping("products/{id}")
