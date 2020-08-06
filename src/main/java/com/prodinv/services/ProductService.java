@@ -56,6 +56,29 @@ public class ProductService
         return productRepository.save(newProduct);
     }
 
+    public Product update(Long id, Product updatedProduct)
+    {
+        return this.productRepository.findById(id)
+                .map(product -> {
+                    product.setName(updatedProduct.getName());
+                    product.setAbbreviation(updatedProduct.getAbbreviation());
+                    product.setLocation(updatedProduct.getLocation());
+                    product.setLength(updatedProduct.getLength());
+                    product.setWidth(updatedProduct.getWidth());
+                    product.setDepth(updatedProduct.getDepth());
+                    product.setQty(updatedProduct.getQty());
+                    product.setDescription(updatedProduct.getDescription());
+                    product.setCategory(updatedProduct.getCategory());
+                    product.setPhotos(updatedProduct.getPhotos());
+
+                    return productRepository.save(product);
+                })
+                .orElseGet(() -> productRepository.save(updatedProduct));
+    }
+
+
+
+
     public Product attachPhoto(Long productId, MultipartFile file) throws IOException
     {
         ImageFile img = new ImageFile(file.getOriginalFilename(), file.getContentType(), file.getBytes());
