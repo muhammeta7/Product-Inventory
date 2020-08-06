@@ -56,12 +56,6 @@ public class ImageFileController
                 .build();
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<ImageFile> findImageById(@PathVariable Long id) throws FileNotFoundException
-//    {
-//        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
-//    }
-
     @GetMapping(value = "/{name}")
     public ResponseEntity<byte[]> findImageByName(@PathVariable String name) throws FileNotFoundException
     {
