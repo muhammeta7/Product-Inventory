@@ -14,14 +14,16 @@ public class ImageFile
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "file_name")
+    @NotBlank(message = "Files must have a file name.")
     private String fileName;
+    @Pattern(regexp = "^image/.+", message = "Must submit a valid image format.")
+    @NotBlank(message = "File must have a content type.")
     private String type;
-    @Lob
-    @Column(name = "image_bytes")
-    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "image_bytes", columnDefinition = "bytea")
+    @NotEmpty(message = "Files must not be empty.")
     private byte[] imgBytes;
-    // TODO relationship with product (Setters & getters below commented)
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     @JsonIgnoreProperties("photos")
     private Product product;
 

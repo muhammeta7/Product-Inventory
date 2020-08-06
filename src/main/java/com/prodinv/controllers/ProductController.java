@@ -4,20 +4,20 @@ import com.prodinv.models.Product;
 import com.prodinv.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
 public class ProductController
 {
-    private ProductService service;
+    private final ProductService service;
 
     @Autowired
     public ProductController(ProductService service)
@@ -32,21 +32,27 @@ public class ProductController
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Optional<Product>> findById(@PathVariable Long id)
+    public ResponseEntity<?> findById(@PathVariable Long id)
     {
-        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+        return this.service.findById(id)
+                .map(product -> ResponseEntity.ok().body(product))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/products/name")
-    public ResponseEntity<Product> findByName(@RequestParam String name)
+    public ResponseEntity<?> findByName(@RequestParam String name)
     {
-        return new ResponseEntity<>(service.findByName(name), HttpStatus.OK);
+        return this.service.findByName(name)
+                .map(product -> ResponseEntity.ok().body(product))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/products/abbr")
-    public ResponseEntity<Product> findByAbbr(@RequestParam String abbr)
+    public ResponseEntity<?> findByAbbr(@RequestParam String abbr)
     {
-        return new ResponseEntity<>(service.findByAbbr(abbr), HttpStatus.OK);
+        return this.service.findByAbbr(abbr)
+                .map(product -> ResponseEntity.ok().body(product))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/products/category")
@@ -73,26 +79,36 @@ public class ProductController
         return new ResponseEntity<>(service.listLocations(), HttpStatus.OK);
     }
 
-//    @PostMapping("/products")
-//    public ResponseEntity<Product> create(@Valid @RequestBody Product product)
-//    {
-//        return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
-//    }
-
-
-    // Error: 2020-07-28 14:28:30.887  WARN 18133 --- [nio-8080-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver :
-    //      Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'application/octet-
-    //      stream' not supported]
-    @PostMapping("/products")
+    @PostMapping(value = "/products",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
-                                          @RequestPart("image")MultipartFile image) throws IOException
+                                          @RequestPart(value = "image", required = false) MultipartFile image) throws IOException
     {
         return new ResponseEntity<>(service.create(product, image), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("products/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id)
+    @PutMapping(value = "/products/{id}/upload_photo",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> attachPhoto(@Valid @PathVariable("id") Long id, @RequestPart("image") MultipartFile image) throws IOException
     {
-        return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
+        return new ResponseEntity<>(service.attachPhoto(id, image), HttpStatus.OK);
+    }
+
+    @DeleteMapping("products/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id)
+    {
+        if(service.delete(id))
+        {
+            return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(String.format("{\"message\":\"Successfully deleted product %d\"}", id));
+        }
+        else
+        {
+            return ResponseEntity
+                    .noContent()
+                    .build();
+        }
     }
 }

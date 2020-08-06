@@ -42,10 +42,10 @@ public class Product {
     @NotEmpty(message = "Category can not be empty")
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
-    // TODO Relationship with images(Setters & getters below commented)
-    @OneToOne
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product", orphanRemoval = true)
     @JsonIgnoreProperties("product")
-    private ImageFile photo;
+    @NotNull
+    private Set<ImageFile> photos;
 
     public Product() {
     }
@@ -130,13 +130,13 @@ public class Product {
         this.category = category;
     }
 
-    public ImageFile getPhoto()
+    public Set<ImageFile> getPhotos()
     {
-        return photo;
+        return photos;
     }
 
-    public void setPhoto(ImageFile photo)
+    public void setPhotos(Set<ImageFile> photos)
     {
-        this.photo = photo;
+        this.photos = photos;
     }
 }
