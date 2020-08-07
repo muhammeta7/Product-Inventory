@@ -79,12 +79,16 @@ public class ProductController
         return new ResponseEntity<>(service.listLocations(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/products",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
-                                          @RequestPart(value = "image", required = false) MultipartFile image) throws IOException
+    @PostMapping(value = "/products")
+    public ResponseEntity<?> create(@Valid @RequestBody Product product)
     {
-        return new ResponseEntity<>(service.create(product, image), HttpStatus.CREATED);
+        return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "products/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody Product product, @PathVariable Long id)
+    {
+        return new ResponseEntity<>(service.update(id, product), HttpStatus.OK);
     }
 
     @PutMapping(value = "/products/{id}/upload_photo",
