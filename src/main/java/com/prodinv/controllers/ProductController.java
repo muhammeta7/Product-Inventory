@@ -4,6 +4,7 @@ import com.prodinv.models.Product;
 import com.prodinv.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,16 +79,40 @@ public class ProductController
         return new ResponseEntity<>(service.listLocations(), HttpStatus.OK);
     }
 
-    @PostMapping("/products")
-    public ResponseEntity<Product> create(@Valid @RequestPart("product") Product product,
-                                          @RequestPart(value = "image", required = false)MultipartFile image) throws IOException
+    @PostMapping(value = "/products")
+    public ResponseEntity<?> create(@Valid @RequestBody Product product)
     {
-        return new ResponseEntity<>(service.create(product, image), HttpStatus.CREATED);
+        return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "products/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody Product product, @PathVariable Long id)
+    {
+        return new ResponseEntity<>(service.update(id, product), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/products/{id}/upload_photo",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> attachPhoto(@Valid @PathVariable("id") Long id, @RequestPart("image") MultipartFile image) throws IOException
+    {
+        return new ResponseEntity<>(service.attachPhoto(id, image), HttpStatus.OK);
     }
 
     @DeleteMapping("products/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id)
+    public ResponseEntity<?> delete(@PathVariable Long id)
     {
-        return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
+        if(service.delete(id))
+        {
+            return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(String.format("{\"message\":\"Successfully deleted product %d\"}", id));
+        }
+        else
+        {
+            return ResponseEntity
+                    .noContent()
+                    .build();
+        }
     }
 }

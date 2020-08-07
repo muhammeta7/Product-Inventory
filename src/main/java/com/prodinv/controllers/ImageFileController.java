@@ -4,14 +4,16 @@ import com.prodinv.exceptions.InvalidImageFileException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.services.ImageFileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -29,8 +31,8 @@ public class ImageFileController
         this.service = service;
     }
 
-    @PostMapping(value = "/upload")
-    public ResponseEntity<ImageFile> uploadImage(@Valid @RequestPart("image") MultipartFile image) throws IOException
+    @PostMapping
+    public ResponseEntity<?> uploadImage(@Valid @RequestPart("image") MultipartFile image) throws IOException
     {
         ImageFile upload;
 
@@ -44,23 +46,27 @@ public class ImageFileController
             throw new InvalidImageFileException(e.getMessage(), e.getCause());
         }
 
-        return new ResponseEntity<>(upload, HttpStatus.CREATED);
-    }
+        URI newImageUri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("{name}")
+                .buildAndExpand(upload.getFileName())
+                .toUri();
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<ImageFile> findImageById(@PathVariable Long id) throws FileNotFoundException
-//    {
-//        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
-//    }
+        return ResponseEntity.created(newImageUri)
+                .build();
+    }
 
     @GetMapping(value = "/{name}")
     public ResponseEntity<byte[]> findImageByName(@PathVariable String name) throws FileNotFoundException
     {
-        ImageFile img = service.findByName(name);
 
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.valueOf(img.getType()))
-                .body(img.getImgBytes());
+        return this.service.findByName(name)
+                .map(img -> ResponseEntity.ok()
+                        .contentType(MediaType.valueOf(img.getType()))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
+                        .body(img.getImgBytes()))
+                .orElse(ResponseEntity
+                        .notFound()
+                        .build());
     }
 }

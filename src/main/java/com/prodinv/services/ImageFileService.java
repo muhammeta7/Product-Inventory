@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +38,7 @@ public class ImageFileService
         logger.log(Level.INFO, "UPLOAD File name: " + fileName);
         logger.log(Level.INFO, "UPLOAD Content Type: " + file.getContentType());
         byte[] fileBytes = file.getBytes();
-        logger.log(Level.INFO, String.format("UPLOAD File size: %.2f KB", fileBytes.length / 1024.0));
+        logger.log(Level.INFO, String.format("UPLOAD File size: %.2fKB", fileBytes.length / 1024.0));
         ImageFile img = new ImageFile(fileName, file.getContentType(), fileBytes);
 
         return repository.save(img);
@@ -50,9 +51,8 @@ public class ImageFileService
     }
 
     @Transactional
-    public ImageFile findByName(String name) throws FileNotFoundException
+    public Optional<ImageFile> findByName(String name) throws FileNotFoundException
     {
-        return repository.findByFileName(name)
-                .orElseThrow(() -> new FileSystemNotFoundException(("File not found with name " + name)));
+        return repository.findByFileName(name);
     }
 }
