@@ -45,12 +45,11 @@ public class Product {
     private String category;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product", orphanRemoval = true)
     @JsonIgnoreProperties("product")
-    @NotNull
+//    @NotNull
     private Set<ImageFile> photos;
 
-    public Product() {
-        this.photos = new HashSet<>();
-    }
+    public Product() {}
+
 
     public void setId(Long id) {
         this.id = id;

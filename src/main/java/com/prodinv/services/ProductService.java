@@ -56,6 +56,29 @@ public class ProductService
         return productRepository.save(newProduct);
     }
 
+    public Product update(Long id, Product updatedProduct)
+    {
+        return this.productRepository.findById(id)
+                .map(product -> {
+                    product.setName(updatedProduct.getName());
+                    product.setAbbreviation(updatedProduct.getAbbreviation());
+                    product.setLocation(updatedProduct.getLocation());
+                    product.setLength(updatedProduct.getLength());
+                    product.setWidth(updatedProduct.getWidth());
+                    product.setDepth(updatedProduct.getDepth());
+                    product.setQty(updatedProduct.getQty());
+                    product.setDescription(updatedProduct.getDescription());
+                    product.setCategory(updatedProduct.getCategory());
+                    product.setPhotos(updatedProduct.getPhotos());
+
+                    return productRepository.save(product);
+                })
+                .orElseGet(() -> productRepository.save(updatedProduct));
+    }
+
+
+
+
     public Product attachPhoto(Long productId, MultipartFile file) throws IOException
     {
         ImageFile img = new ImageFile(file.getOriginalFilename(), file.getContentType(), file.getBytes());
@@ -120,6 +143,27 @@ public class ProductService
     public Collection<String> listLocations()
     {
         return productRepository.findLocations();
+    }
+
+    public Product increaseQuantity(Long id, Integer quantity)
+    {
+        Product original = productRepository.getOne(id);
+        original.setQty(original.getQty() + quantity);
+        return productRepository.save(original);
+    }
+
+    public Product decreaseQuantity(Long id, Integer quantity)
+    {
+        Product original = productRepository.getOne(id);
+        if(original.getQty() - quantity < 0)
+        {
+            throw new IllegalArgumentException("Too many");
+        }
+        else
+            {
+            original.setQty(original.getQty() - quantity);
+        }
+        return productRepository.save(original);
     }
 
     public Boolean delete(Long id)
