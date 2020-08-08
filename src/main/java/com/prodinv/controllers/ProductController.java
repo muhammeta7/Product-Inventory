@@ -91,6 +91,16 @@ public class ProductController
         return new ResponseEntity<>(service.update(id, product), HttpStatus.OK);
     }
 
+    @PutMapping(value = "products/{id}/increase/qty")
+    public ResponseEntity<Product> increaseQuantity(@PathVariable Long id, @RequestParam Integer qty){
+        return new ResponseEntity<>(service.increaseQuantity(id, qty), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "products/{id}/decrease/qty")
+    public ResponseEntity<Product> decreaseQuantity(@PathVariable Long id, @RequestParam Integer qty){
+        return new ResponseEntity<>(service.decreaseQuantity(id, qty), HttpStatus.OK);
+    }
+
     @PutMapping(value = "/products/{id}/upload_photo",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> attachPhoto(@Valid @PathVariable("id") Long id, @RequestPart("image") MultipartFile image) throws IOException

@@ -145,6 +145,27 @@ public class ProductService
         return productRepository.findLocations();
     }
 
+    public Product increaseQuantity(Long id, Integer quantity)
+    {
+        Product original = productRepository.getOne(id);
+        original.setQty(original.getQty() + quantity);
+        return productRepository.save(original);
+    }
+
+    public Product decreaseQuantity(Long id, Integer quantity)
+    {
+        Product original = productRepository.getOne(id);
+        if(original.getQty() - quantity < 0)
+        {
+            throw new IllegalArgumentException("Too many");
+        }
+        else
+            {
+            original.setQty(original.getQty() - quantity);
+        }
+        return productRepository.save(original);
+    }
+
     public Boolean delete(Long id)
     {
         if(productRepository.findById(id).isPresent())
