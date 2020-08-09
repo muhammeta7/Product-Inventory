@@ -26,8 +26,7 @@ public class ImageFile
     @JoinColumn(name = "product_id")
     @JsonIgnoreProperties("photos")
     private Product product;
-
-    // It's on one line.  Are you happy? :P
+    
     public ImageFile() {}
 
     public ImageFile(String fileName, String contentType, byte[] imgBytes)
