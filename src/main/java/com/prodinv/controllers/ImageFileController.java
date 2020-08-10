@@ -70,10 +70,4 @@ public class ImageFileController
                         .notFound()
                         .build());
     }
-
-    @GetMapping(value = "/")
-    public ResponseEntity<Iterable<String>> index()
-    {
-        return new ResponseEntity<>(service.index(), HttpStatus.OK);
-    }
 }
