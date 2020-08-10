@@ -5,6 +5,7 @@ import com.prodinv.models.ImageFile;
 import com.prodinv.services.ImageFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,5 +69,11 @@ public class ImageFileController
                 .orElse(ResponseEntity
                         .notFound()
                         .build());
+    }
+
+    @GetMapping(value = "/")
+    public ResponseEntity<Iterable<String>> index()
+    {
+        return new ResponseEntity<>(service.index(), HttpStatus.OK);
     }
 }

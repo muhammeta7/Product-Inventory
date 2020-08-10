@@ -10,6 +10,8 @@ import javax.transaction.Transactional;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,5 +56,19 @@ public class ImageFileService
     public Optional<ImageFile> findByName(String name) throws FileNotFoundException
     {
         return repository.findByFileName(name);
+    }
+
+    public Iterable<String> index()
+    {
+        List<String> imageUrls = new ArrayList<>();
+        List<ImageFile> images = new ArrayList<>(repository.findAll());
+        String path = "https://fastfurniture-api.herokuapp.com/api/images/";
+
+        for(ImageFile img : images)
+        {
+            imageUrls.add(path + img.getFileName());
+        }
+
+        return imageUrls;
     }
 }
