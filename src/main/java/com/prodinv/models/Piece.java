@@ -6,7 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 
 @Entity
-@Table(name = "piece")
+@Table(name = "piece",
+        uniqueConstraints = @UniqueConstraint( columnNames = { "product_id", "bundle_id"} ))
 public class Piece
 {
     @Id
@@ -18,6 +19,7 @@ public class Piece
     private Product product;
 
     @ManyToOne
+    @JoinColumn(name = "bundle_id")
     @JsonIgnoreProperties("pieces")
     private Bundle bundle;
 
