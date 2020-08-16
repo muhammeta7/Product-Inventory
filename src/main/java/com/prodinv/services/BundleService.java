@@ -29,6 +29,11 @@ public class BundleService
         return bundleRepository.save(bundle);
     }
 
+    public Iterable<Bundle> findAll()
+    {
+        return bundleRepository.findAll();
+    }
+
     public Optional<Bundle> findById(Long id)
     {
         return bundleRepository.findById(id);
