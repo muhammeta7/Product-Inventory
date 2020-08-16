@@ -5,7 +5,6 @@ import com.prodinv.models.Bundle;
 import com.prodinv.models.Piece;
 import com.prodinv.models.Product;
 import com.prodinv.repositories.BundleRepository;
-import com.prodinv.repositories.PieceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

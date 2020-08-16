@@ -30,7 +30,7 @@ public class BundleController
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Bundle>> findById(Long id)
+    public ResponseEntity<Optional<Bundle>> findById(@PathVariable Long id)
     {
         return new ResponseEntity<>(bundleService.findById(id), HttpStatus.ACCEPTED);
     }

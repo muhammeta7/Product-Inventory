@@ -15,11 +15,12 @@ public class Piece
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnoreProperties("pieces")
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "bundle_id")
-    @JsonIgnoreProperties( { "product", "bundle" } )
+    @JsonIgnoreProperties("pieces")
     private Bundle bundle;
 
     @Min(0)

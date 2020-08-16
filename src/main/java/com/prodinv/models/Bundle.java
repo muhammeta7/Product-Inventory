@@ -20,7 +20,7 @@ public class Bundle
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "bundle")
-    @JsonIgnoreProperties( { "product", "bundle", "piece" } )
+    @JsonIgnoreProperties("bundle")
     private Set<Piece> pieces;
 
     public Bundle() { }
@@ -45,7 +45,7 @@ public class Bundle
         this.name = name;
     }
 
-    public Set<Piece> getPiece()
+    public Set<Piece> getPieces()
     {
         return pieces;
     }
