@@ -41,15 +41,6 @@ public class Product {
     @NotEmpty(message = "Category can not be empty")
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product", orphanRemoval = true)
-    @JsonIgnoreProperties({ "product", "photos" } )
-    @NotNull
-    private Set<ImageFile> photos;
-    // TODO: Do we need this to be bidirectional?  I don't think so, but we'll talk
-    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
-    //    @JsonIgnoreProperties("product")
-    //    @NotNull
-    //    private Set<Piece> pieces;
 
     public Product() {
     }
@@ -133,24 +124,4 @@ public class Product {
     public void setCategory(String category) {
         this.category = category;
     }
-
-    public Set<ImageFile> getPhotos()
-    {
-        return photos;
-    }
-
-    public void setPhotos(Set<ImageFile> photos)
-    {
-        this.photos = photos;
-    }
-// For bidirectionality
-//    public Set<Piece> getPieces()
-//    {
-//        return pieces;
-//    }
-//
-//    public void setPieces(Set<Piece> pieces)
-//    {
-//        this.pieces = pieces;
-//    }
 }

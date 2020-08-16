@@ -1,5 +1,6 @@
 package com.prodinv.controllers;
 
+import com.prodinv.models.ImageFile;
 import com.prodinv.models.Product;
 import com.prodinv.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,12 @@ public class ProductController
     public ResponseEntity<Collection<String>> findLocations()
     {
         return new ResponseEntity<>(service.listLocations(), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/{id}/image")
+    public ResponseEntity<Iterable<ImageFile>> findProductPhotos(@PathVariable Long id)
+    {
+        return new ResponseEntity<>(service.findPhotos(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "/products")

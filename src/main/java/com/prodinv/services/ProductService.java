@@ -4,6 +4,7 @@ import com.prodinv.exceptions.InvalidImageFileException;
 import com.prodinv.exceptions.ResourceNotFoundException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.models.Product;
+import com.prodinv.repositories.ImageFileRepository;
 import com.prodinv.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,17 @@ import java.util.logging.Logger;
 public class ProductService
 {
     private final ProductRepository productRepository;
+    private final ImageFileService imageFileService;
+    private final ImageFileRepository imageFileRepository;
     private final Logger logger = Logger.getLogger(ProductService.class.getName());
 
     @Autowired
-    public ProductService(ProductRepository productRepository)
+    public ProductService(ProductRepository productRepository, ImageFileService imageFileService,
+            ImageFileRepository imageFileRepository)
     {
         this.productRepository = productRepository;
+        this.imageFileService = imageFileService;
+        this.imageFileRepository = imageFileRepository;
     }
 
     public Product create(Product newProduct)
@@ -39,8 +45,8 @@ public class ProductService
             logger.log(Level.INFO, "UPLOAD File name: " + img.getFileName());
             logger.log(Level.INFO, "UPLOAD Content Type: " + img.getType());
             logger.log(Level.INFO, String.format("UPLOAD File size: %.2f KB", img.getImgBytes().length / 1024.0));
-            newProduct.getPhotos().add(img);
             img.setProduct(newProduct);
+            imageFileRepository.save(img);
         }
         catch(Exception e)
         {
@@ -66,15 +72,11 @@ public class ProductService
                     product.setQty(updatedProduct.getQty());
                     product.setDescription(updatedProduct.getDescription());
                     product.setCategory(updatedProduct.getCategory());
-                    product.setPhotos(updatedProduct.getPhotos());
 
                     return productRepository.save(product);
                 })
                 .orElseGet(() -> productRepository.save(updatedProduct));
     }
-
-
-
 
     public Product attachPhoto(Long productId, MultipartFile file) throws IOException
     {
@@ -92,10 +94,9 @@ public class ProductService
                     product.setQty(product.getQty());
                     product.setDescription(product.getDescription());
                     product.setCategory(product.getCategory());
-                    product.setPhotos(product.getPhotos());
 
-                    product.getPhotos().add(img);
                     img.setProduct(product);
+                    imageFileRepository.save(img);
 
                     return productRepository.save(product);
                 })
@@ -140,6 +141,18 @@ public class ProductService
     public Collection<String> listLocations()
     {
         return productRepository.findLocations();
+    }
+
+    public Iterable<ImageFile> findPhotos(Long id)
+    {
+        if(productRepository.findById(id).isPresent())
+        {
+            return imageFileService.findPhotos(productRepository.findById(id).get());
+        }
+        else
+        {
+            throw new ResourceNotFoundException();
+        }
     }
 
     public Boolean delete(Long id)

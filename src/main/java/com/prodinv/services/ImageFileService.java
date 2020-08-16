@@ -1,6 +1,7 @@
 package com.prodinv.services;
 
 import com.prodinv.models.ImageFile;
+import com.prodinv.models.Product;
 import com.prodinv.repositories.ImageFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,6 +51,11 @@ public class ImageFileService
     {
         return repository.findById(id)
                 .orElseThrow(() -> new FileNotFoundException("File not found with id " + id));
+    }
+
+    public Iterable<ImageFile> findPhotos(Product product)
+    {
+        return repository.findAllByProduct(product);
     }
 
     @Transactional
