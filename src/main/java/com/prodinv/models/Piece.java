@@ -20,7 +20,6 @@ public class Piece
 
     @ManyToOne
     @JoinColumn(name = "bundle_id")
-    @JsonIgnoreProperties("pieces")
     private Bundle bundle;
 
     @Min(0)

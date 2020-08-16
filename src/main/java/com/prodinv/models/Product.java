@@ -42,7 +42,7 @@ public class Product {
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product", orphanRemoval = true)
-    @JsonIgnoreProperties("product")
+    @JsonIgnoreProperties({ "product", "photos" } )
     @NotNull
     private Set<ImageFile> photos;
     // TODO: Do we need this to be bidirectional?  I don't think so, but we'll talk
