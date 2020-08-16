@@ -45,10 +45,11 @@ public class Product {
     @JsonIgnoreProperties("product")
     @NotNull
     private Set<ImageFile> photos;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
-    @JsonIgnoreProperties("product")
-    @NotNull
-    private Set<Piece> pieces;
+    // TODO: Do we need this to be bidirectional?  I don't think so, but we'll talk
+    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
+    //    @JsonIgnoreProperties("product")
+    //    @NotNull
+    //    private Set<Piece> pieces;
 
     public Product() {
     }
@@ -142,14 +143,14 @@ public class Product {
     {
         this.photos = photos;
     }
-
-    public Set<Piece> getPieces()
-    {
-        return pieces;
-    }
-
-    public void setPieces(Set<Piece> pieces)
-    {
-        this.pieces = pieces;
-    }
+// For bidirectionality
+//    public Set<Piece> getPieces()
+//    {
+//        return pieces;
+//    }
+//
+//    public void setPieces(Set<Piece> pieces)
+//    {
+//        this.pieces = pieces;
+//    }
 }
