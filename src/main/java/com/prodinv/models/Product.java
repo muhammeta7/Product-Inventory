@@ -45,8 +45,10 @@ public class Product {
     @JsonIgnoreProperties("product")
     @NotNull
     private Set<ImageFile> photos;
-    @OneToMany(mappedBy = "product")
-    private Set<Component> components;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
+    @JsonIgnoreProperties( { "product", "bundle", "piece" } )
+    @NotNull
+    private Set<Piece> pieces;
 
     public Product() {
     }
@@ -141,13 +143,13 @@ public class Product {
         this.photos = photos;
     }
 
-    public Set<Component> getComponents()
+    public Set<Piece> getPieces()
     {
-        return components;
+        return pieces;
     }
 
-    public void setComponents(Set<Component> components)
+    public void setPieces(Set<Piece> pieces)
     {
-        this.components = components;
+        this.pieces = pieces;
     }
 }

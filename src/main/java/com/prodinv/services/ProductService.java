@@ -1,16 +1,13 @@
 package com.prodinv.services;
 
 import com.prodinv.exceptions.InvalidImageFileException;
-import com.prodinv.exceptions.ProductNotFoundException;
+import com.prodinv.exceptions.ResourceNotFoundException;
 import com.prodinv.models.ImageFile;
 import com.prodinv.models.Product;
 import com.prodinv.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
@@ -102,7 +99,7 @@ public class ProductService
 
                     return productRepository.save(product);
                 })
-                .orElseThrow(ProductNotFoundException::new);
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     public Iterable<Product> index()
