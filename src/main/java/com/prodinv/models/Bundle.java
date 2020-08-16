@@ -1,5 +1,7 @@
 package com.prodinv.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -13,11 +15,13 @@ public class Bundle
     @Column(name = "bundle_id")
     private Long id;
 
+    @Column(unique = true)
     @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long.")
     private String name;
 
-    @OneToMany(mappedBy = "bundle")
-    private Set<Component> components;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "bundle")
+    @JsonIgnoreProperties("bundle")
+    private Set<Piece> pieces;
 
     public Bundle() { }
 
@@ -41,13 +45,13 @@ public class Bundle
         this.name = name;
     }
 
-    public Set<Component> getComponents()
+    public Set<Piece> getPieces()
     {
-        return components;
+        return pieces;
     }
 
-    public void setComponents(Set<Component> components)
+    public void setPieces(Set<Piece> pieces)
     {
-        this.components = components;
+        this.pieces = pieces;
     }
 }

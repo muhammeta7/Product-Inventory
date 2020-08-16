@@ -1,38 +1,38 @@
 package com.prodinv.models;
 
-import com.prodinv.compositekeys.ComponentKey;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 
 @Entity
-public class Component
+@Table(name = "piece",
+        uniqueConstraints = @UniqueConstraint( columnNames = { "product_id", "bundle_id"} ))
+public class Piece
 {
-    @EmbeddedId
-    @Column(name = "component_id")
-    private ComponentKey id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @ManyToOne
-    @MapsId("product_id")
     @JoinColumn(name = "product_id")
     private Product product;
 
     @ManyToOne
-    @MapsId("bundle_id")
     @JoinColumn(name = "bundle_id")
     private Bundle bundle;
 
     @Min(0)
-    private Integer default_qty;
+    private Integer defaultQty;
 
-    public Component() { }
+    public Piece() { }
 
-    public ComponentKey getId()
+    public Long getId()
     {
         return id;
     }
 
-    public void setId(ComponentKey id)
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -47,23 +47,23 @@ public class Component
         this.product = product;
     }
 
-    public Bundle getProductSet()
+    public Bundle getBundle()
     {
         return bundle;
     }
 
-    public void setProductSet(Bundle bundle)
+    public void setBundle(Bundle bundle)
     {
         this.bundle = bundle;
     }
 
-    public Integer getDefault_qty()
+    public Integer getDefaultQty()
     {
-        return default_qty;
+        return defaultQty;
     }
 
-    public void setDefault_qty(Integer default_qty)
+    public void setDefaultQty(Integer defaultQty)
     {
-        this.default_qty = default_qty;
+        this.defaultQty = defaultQty;
     }
 }

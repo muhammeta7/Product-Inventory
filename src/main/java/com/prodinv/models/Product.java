@@ -6,9 +6,7 @@ import javax.validation.constraints.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "product",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "abbreviation"})}
-)
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,10 +14,12 @@ public class Product {
     private Long id;
     @NotEmpty(message = "Name can not be empty")
     @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long.")
+    @Column(unique = true)
     private String name;
     @NotEmpty(message = "Name can not be empty")
     @Pattern(regexp = "\\S+")
     @Size(min = 2, max = 5, message = "Abbreviation must be between 2 and 5 characters long.")
+    @Column(unique = true)
     private String abbreviation;
     @Pattern(regexp = "^[A-K]\\d[TB]$")
     private String location;
@@ -42,11 +42,14 @@ public class Product {
     @Size(min = 2, max = 32, message = "Category must be between 2 and 32 characters long.")
     private String category;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product", orphanRemoval = true)
-    @JsonIgnoreProperties("product")
+    @JsonIgnoreProperties({ "product", "photos" } )
     @NotNull
     private Set<ImageFile> photos;
-    @OneToMany(mappedBy = "product")
-    private Set<Component> components;
+    // TODO: Do we need this to be bidirectional?  I don't think so, but we'll talk
+    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
+    //    @JsonIgnoreProperties("product")
+    //    @NotNull
+    //    private Set<Piece> pieces;
 
     public Product() {
     }
@@ -140,14 +143,14 @@ public class Product {
     {
         this.photos = photos;
     }
-
-    public Set<Component> getComponents()
-    {
-        return components;
-    }
-
-    public void setComponents(Set<Component> components)
-    {
-        this.components = components;
-    }
+// For bidirectionality
+//    public Set<Piece> getPieces()
+//    {
+//        return pieces;
+//    }
+//
+//    public void setPieces(Set<Piece> pieces)
+//    {
+//        this.pieces = pieces;
+//    }
 }
