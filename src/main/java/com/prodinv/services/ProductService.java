@@ -157,7 +157,7 @@ public class ProductService
         Product original = productRepository.getOne(id);
         if(original.getQty() - quantity < 0)
         {
-            throw new IllegalArgumentException("Too many");
+            throw new IllegalArgumentException("Can not decrease more than given amount");
         }
         else
             {

@@ -12,7 +12,7 @@ import java.util.Set;
 )
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
     @NotEmpty(message = "Name can not be empty")
@@ -34,7 +34,7 @@ public class Product {
     @DecimalMin("0.0")
     private Double depth;
     @NotNull
-    @Min(1)
+    @Min(0)
     private Integer qty;
     @NotEmpty(message = "Description can not be empty")
     @Size(min = 2, max = 300, message = "Description must be between 2 and 5 characters long.")
