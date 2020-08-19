@@ -1,19 +1,18 @@
 package com.prodinv.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-@Table(name = "image",
-        uniqueConstraints={@UniqueConstraint(columnNames={"file_name"})})
+@Table(name = "image")
 public class ImageFile
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "file_name")
+    @Column(name = "file_name",
+            unique = true)
     @NotBlank(message = "Files must have a file name.")
     private String fileName;
     @Pattern(regexp = "^image/.+", message = "Must submit a valid image format.")
@@ -27,7 +26,6 @@ public class ImageFile
     @JsonIgnoreProperties("photos")
     private Product product;
 
-    // It's on one line.  Are you happy? :P
     public ImageFile() {}
 
     public ImageFile(String fileName, String contentType, byte[] imgBytes)

@@ -1,15 +1,18 @@
 package com.prodinv.services;
 
 import com.prodinv.models.ImageFile;
+import com.prodinv.models.Product;
 import com.prodinv.repositories.ImageFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.FileSystemNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +51,11 @@ public class ImageFileService
     {
         return repository.findById(id)
                 .orElseThrow(() -> new FileNotFoundException("File not found with id " + id));
+    }
+
+    public Iterable<ImageFile> findPhotos(Product product)
+    {
+        return repository.findAllByProduct(product);
     }
 
     @Transactional
