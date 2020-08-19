@@ -1,5 +1,6 @@
 package com.prodinv.controllers;
 
+import com.prodinv.dtos.ProductQuantityOnly;
 import com.prodinv.models.Product;
 import com.prodinv.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,7 @@ public class ProductController {
     @PostMapping(value = "/products")
     public ResponseEntity<?> create(@Valid @RequestBody Product product)
     {
+        System.out.println(product.getId());
         return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
     }
 
@@ -93,7 +95,12 @@ public class ProductController {
         return new ResponseEntity<>(service.decreaseQuantity(id, qty), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/products/{id}/upload_photo",
+//    @PatchMapping("/products/update/qty/{id}")
+//    public ResponseEntity<?> updateQuantity(@RequestBody ProductQuantityOnly partialUpdate, @PathVariable String id){
+//
+//    }
+
+    @PatchMapping(value = "/products/{id}/upload_photo",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> attachPhoto(@Valid @PathVariable("id") Long id, @RequestPart("image") MultipartFile image) throws IOException
     {
