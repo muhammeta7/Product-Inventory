@@ -1,16 +1,13 @@
 package com.prodinv.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "product",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "abbreviation"})}
-)
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,10 +15,12 @@ public class Product {
     private Long id;
     @NotEmpty(message = "Name can not be empty")
     @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long.")
+    @Column(unique = true)
     private String name;
     @NotEmpty(message = "Name can not be empty")
     @Pattern(regexp = "\\S+")
     @Size(min = 2, max = 5, message = "Abbreviation must be between 2 and 5 characters long.")
+    @Column(unique = true)
     private String abbreviation;
     @Pattern(regexp = "^[A-K]\\d[TB]$")
     private String location;
@@ -47,6 +46,7 @@ public class Product {
     @JsonIgnoreProperties("product")
 //    @NotNull
     private Set<ImageFile> photos;
+
 
     public Product() {}
 
@@ -129,15 +129,5 @@ public class Product {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public Set<ImageFile> getPhotos()
-    {
-        return photos;
-    }
-
-    public void setPhotos(Set<ImageFile> photos)
-    {
-        this.photos = photos;
     }
 }

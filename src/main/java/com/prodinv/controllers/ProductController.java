@@ -1,6 +1,5 @@
 package com.prodinv.controllers;
 
-import com.prodinv.dtos.ProductQuantityOnly;
 import com.prodinv.models.Product;
 import com.prodinv.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +70,12 @@ public class ProductController {
         return new ResponseEntity<>(service.listLocations(), HttpStatus.OK);
     }
 
+    @GetMapping("/products/{id}/image")
+    public ResponseEntity<Iterable<ImageFile>> findProductPhotos(@PathVariable Long id)
+    {
+        return new ResponseEntity<>(service.findPhotos(id), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/products")
     public ResponseEntity<?> create(@Valid @RequestBody Product product)
     {
@@ -112,6 +117,7 @@ public class ProductController {
 //    {
 //        return  new ResponseEntity<>(service.createProd(product, file), HttpStatus.OK);
 //    }
+
 
     @DeleteMapping("products/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id)
