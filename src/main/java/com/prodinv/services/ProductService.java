@@ -174,6 +174,27 @@ public class ProductService
         {
             throw new ResourceNotFoundException();
         }
+
+    public Product increaseQuantity(Long id, Integer quantity)
+    {
+        Product original = productRepository.getOne(id);
+        original.setQty(original.getQty() + quantity);
+        return productRepository.save(original);
+    }
+
+    public Product decreaseQuantity(Long id, Integer quantity)
+    {
+        Product original = productRepository.getOne(id);
+        if(original.getQty() - quantity < 0)
+        {
+            throw new IllegalArgumentException("Can not decrease more than given amount");
+        }
+        else
+            {
+            original.setQty(original.getQty() - quantity);
+        }
+        return productRepository.save(original);
+
     }
 
     public Boolean delete(Long id)
