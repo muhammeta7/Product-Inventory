@@ -105,6 +105,15 @@ public class ProductController
         return new ResponseEntity<>(service.attachPhoto(id, image), HttpStatus.OK);
     }
 
+    @PutMapping(value = "products/{id}/increase/qty")
+    public ResponseEntity<Product> increaseQuantity(@PathVariable Long id, @RequestParam Integer qty){
+        return new ResponseEntity<>(service.increaseQuantity(id, qty), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "products/{id}/decrease/qty")
+    public ResponseEntity<Product> decreaseQuantity(@PathVariable Long id, @RequestParam Integer qty){
+        return new ResponseEntity<>(service.decreaseQuantity(id, qty), HttpStatus.OK);
+    }
 
     @DeleteMapping("products/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id)
