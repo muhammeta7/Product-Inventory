@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
@@ -16,67 +17,57 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
-public class ProductController
-{
+public class ProductController {
     private final ProductService service;
 
     @Autowired
-    public ProductController(ProductService service)
-    {
+    public ProductController(ProductService service) {
         this.service = service;
     }
 
     @GetMapping("/products")
-    public ResponseEntity<Iterable<Product>> index()
-    {
+    public ResponseEntity<Iterable<Product>> index() {
         return new ResponseEntity<>(service.index(), HttpStatus.OK);
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id)
-    {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         return this.service.findById(id)
                 .map(product -> ResponseEntity.ok().body(product))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/products/name")
-    public ResponseEntity<?> findByName(@RequestParam String name)
-    {
+    public ResponseEntity<?> findByName(@RequestParam String name) {
         return this.service.findByName(name)
                 .map(product -> ResponseEntity.ok().body(product))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/products/abbr")
-    public ResponseEntity<?> findByAbbr(@RequestParam String abbr)
-    {
+    public ResponseEntity<?> findByAbbr(@RequestParam String abbr) {
         return this.service.findByAbbr(abbr)
                 .map(product -> ResponseEntity.ok().body(product))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/products/category")
-    public ResponseEntity<Collection<Product>> findByCategory(@RequestParam String category)
-    {
+    public ResponseEntity<Collection<Product>> findByCategory(@RequestParam String category) {
         return new ResponseEntity<>(service.findByCategory(category), HttpStatus.OK);
     }
 
     @GetMapping("/products/category/index")
-    public ResponseEntity<Collection<String>> findCategories()
-    {
+    public ResponseEntity<Collection<String>> findCategories() {
         return new ResponseEntity<>(service.listCategories(), HttpStatus.OK);
     }
 
     @GetMapping("/products/abbr/index")
-    public ResponseEntity<Collection<String>> findAbbreviations()
-    {
+    public ResponseEntity<Collection<String>> findAbbreviations() {
         return new ResponseEntity<>(service.listAbbreviations(), HttpStatus.OK);
     }
 
     @GetMapping("/products/location/index")
-    public ResponseEntity<Collection<String>> findLocations()
-    {
+    public ResponseEntity<Collection<String>> findLocations() {
         return new ResponseEntity<>(service.listLocations(), HttpStatus.OK);
     }
 
@@ -89,20 +80,15 @@ public class ProductController
     @PostMapping(value = "/products")
     public ResponseEntity<?> create(@Valid @RequestBody Product product)
     {
+        System.out.println(product.getId());
         return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "products/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody Product product, @PathVariable Long id)
+
     {
         return new ResponseEntity<>(service.update(id, product), HttpStatus.OK);
-    }
-
-    @PutMapping(value = "/products/{id}/upload_photo",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> attachPhoto(@Valid @PathVariable("id") Long id, @RequestPart("image") MultipartFile image) throws IOException
-    {
-        return new ResponseEntity<>(service.attachPhoto(id, image), HttpStatus.OK);
     }
 
     @PutMapping(value = "products/{id}/increase/qty")
@@ -114,6 +100,26 @@ public class ProductController
     public ResponseEntity<Product> decreaseQuantity(@PathVariable Long id, @RequestParam Integer qty){
         return new ResponseEntity<>(service.decreaseQuantity(id, qty), HttpStatus.OK);
     }
+
+//    @PatchMapping("/products/update/qty/{id}")
+//    public ResponseEntity<?> updateQuantity(@RequestBody ProductQuantityOnly partialUpdate, @PathVariable String id){
+//
+//    }
+
+    @PatchMapping(value = "/products/{id}/upload_photo",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> attachPhoto(@Valid @PathVariable("id") Long id, @RequestPart("image") MultipartFile image) throws IOException
+    {
+        return new ResponseEntity<>(service.attachPhoto(id, image), HttpStatus.OK);
+    }
+
+//    @PostMapping("products/photo")
+//    public ResponseEntity<Product> createProd(@Valid @RequestPart("product") Product product, @RequestPart("photo") MultipartFile file) throws IOException
+//    {
+//        return  new ResponseEntity<>(service.createProd(product, file), HttpStatus.OK);
+//    }
+
+
 
     @DeleteMapping("products/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id)

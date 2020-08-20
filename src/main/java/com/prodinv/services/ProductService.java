@@ -166,14 +166,12 @@ public class ProductService
 
     public Iterable<ImageFile> findPhotos(Long id)
     {
-        if(productRepository.findById(id).isPresent())
-        {
+        if (productRepository.findById(id).isPresent()) {
             return imageFileService.findPhotos(productRepository.findById(id).get());
-        }
-        else
-        {
+        } else {
             throw new ResourceNotFoundException();
         }
+
     }
 
     public Boolean delete(Long id)
