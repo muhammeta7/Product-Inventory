@@ -105,6 +105,7 @@ public class ProductController
         return new ResponseEntity<>(service.attachPhoto(id, image), HttpStatus.OK);
     }
 
+
     @DeleteMapping("products/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id)
     {
