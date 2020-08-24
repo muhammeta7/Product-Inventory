@@ -78,6 +78,27 @@ public class ProductService
                 .orElseGet(() -> productRepository.save(updatedProduct));
     }
 
+    public Product increaseQuantity(Long id, Integer quantity)
+    {
+        Product original = productRepository.getOne(id);
+        original.setQty(original.getQty() + quantity);
+        return productRepository.save(original);
+    }
+
+    public Product decreaseQuantity(Long id, Integer quantity)
+    {
+        Product original = productRepository.getOne(id);
+        if(original.getQty() - quantity < 0)
+        {
+            throw new IllegalArgumentException("Can not decrease more than given amount");
+        }
+        else
+        {
+            original.setQty(original.getQty() - quantity);
+        }
+        return productRepository.save(original);
+    }
+
     public Product attachPhoto(Long productId, MultipartFile file) throws IOException
     {
         ImageFile img = new ImageFile(file.getOriginalFilename(), file.getContentType(), file.getBytes());
@@ -145,14 +166,12 @@ public class ProductService
 
     public Iterable<ImageFile> findPhotos(Long id)
     {
-        if(productRepository.findById(id).isPresent())
-        {
+        if (productRepository.findById(id).isPresent()) {
             return imageFileService.findPhotos(productRepository.findById(id).get());
-        }
-        else
-        {
+        } else {
             throw new ResourceNotFoundException();
         }
+
     }
 
     public Boolean delete(Long id)
