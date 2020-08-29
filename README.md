@@ -7,10 +7,25 @@ Business owners can now locate products more efficiently and have a detailed log
  * Java
  * PostgreSQL
  * Spring Boot 
+ * Spring MVC
+ * Maven
  
- ### Testing
-  * Mockito
-  * J-Unit
+### Testing
+ * Mockito
+ * J-Unit
+  
+### Hosting
+ * Heroku
+   
+### Front End 
+ * Angular
+ * HTML
+ * SCSS
+ * TypeScript
+ 
+ 
+  
+  
   
 
 
