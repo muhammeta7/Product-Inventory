@@ -119,8 +119,6 @@ public class ProductController {
 //        return  new ResponseEntity<>(service.createProd(product, file), HttpStatus.OK);
 //    }
 
-
-
     @DeleteMapping("products/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id)
     {
