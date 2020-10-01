@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/bundle")
 public class BundleController
 {
@@ -70,4 +71,5 @@ public class BundleController
                 .build();
         }
     }
+
 }
