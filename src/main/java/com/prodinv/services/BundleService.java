@@ -4,9 +4,13 @@ import com.prodinv.exceptions.ResourceNotFoundException;
 import com.prodinv.models.Bundle;
 import com.prodinv.models.Piece;
 import com.prodinv.models.Product;
+import com.prodinv.models.ProductCount;
 import com.prodinv.repositories.BundleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,6 +54,27 @@ public class BundleService
         addedPiece.setProduct(produceForPiece);
         addedPiece.setDefaultQty(quantity);
         pieceService.create(addedPiece);
+        return bundleRepository.save(bundleForPiece);
+    }
+
+
+    public Bundle addMultiple(Long bundleId, List<ProductCount> list)
+    {
+        Bundle bundleForPiece = findById(bundleId)
+                .orElseThrow(ResourceNotFoundException::new);
+        List<Piece> temp = new ArrayList<>();
+        for(ProductCount pc : list){
+            Product produceForPiece = productService.findById(pc.getProductId())
+                    .orElseThrow(ResourceNotFoundException::new);
+            Piece addedPiece = new Piece();
+            addedPiece.setBundle(bundleForPiece);
+            addedPiece.setProduct(produceForPiece);
+            addedPiece.setDefaultQty(pc.getQty());
+            temp.add(addedPiece);
+        }
+        for(Piece p : temp){
+            pieceService.create(p);
+        }
         return bundleRepository.save(bundleForPiece);
     }
 

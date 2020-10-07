@@ -1,6 +1,7 @@
 package com.prodinv.controllers;
 
 import com.prodinv.models.Bundle;
+import com.prodinv.models.ProductCount;
 import com.prodinv.services.BundleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -47,6 +49,14 @@ public class BundleController
     {
         return new ResponseEntity<>(bundleService.add(bundleId, productId, qty), HttpStatus.OK);
     }
+
+
+    @PutMapping("/{bundleId}/addMany")
+    public ResponseEntity<Bundle> addManyToBundle(@PathVariable Long bundleId, @RequestBody List<ProductCount> list)
+    {
+        return new ResponseEntity<>(bundleService.addMultiple(bundleId, list), HttpStatus.OK);
+    }
+
 
     @PutMapping("/{bundleId}/remove")
     public ResponseEntity<Bundle> removeFromBundle(@PathVariable Long bundleId,
